@@ -29,9 +29,14 @@ class _MainScreenState extends State<MainScreen> {
   Widget _buildItem(String _item, int index, Animation _animation) {
     return Dismissible(
       key: Key("${testList[index]}"),
+      direction: DismissDirection.endToStart,
       child: SizeTransition(
         sizeFactor: _animation,
         child: Card(
+          elevation: 4.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
           child: Container(
             height: 100.0,
             child: ListTile(
@@ -44,12 +49,19 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
       background: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
         color: Colors.red,
         child: Container(
           alignment: AlignmentDirectional.centerEnd,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Icon(Icons.delete, color: Colors.white, size: 30.0,),
+            child: Icon(
+              Icons.delete,
+              color: Colors.white,
+              size: 30.0,
+            ),
           ),
         ),
       ),
