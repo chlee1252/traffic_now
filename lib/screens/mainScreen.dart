@@ -10,12 +10,55 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _counter = 0;
+  List testList = [];
+  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
+//  int _index;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  void _addItem() {
+    final int _index = testList.length;
+    testList.insert(_index, _index);
+    _listKey.currentState.insertItem(_index);
+  }
+
+  void _removeItem(int index) {
+    _listKey.currentState
+        .removeItem(index, (context, animation) => Container());
+    testList.removeAt(index);
+  }
+
+  Widget _buildItem(String _item, int index, Animation _animation) {
+    return Dismissible(
+      key: Key("${testList[index]}"),
+      child: SizeTransition(
+        sizeFactor: _animation,
+        child: Card(
+          child: Container(
+            height: 100.0,
+            child: ListTile(
+              title: Text(
+                _item,
+              ),
+              //TODO: trailing insert switch
+            ),
+          ),
+        ),
+      ),
+      background: Card(
+        color: Colors.red,
+        child: Container(
+          alignment: AlignmentDirectional.centerEnd,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Icon(Icons.delete, color: Colors.white, size: 30.0,),
+          ),
+        ),
+      ),
+      onDismissed: (direction) {
+        setState(() {
+          _removeItem(index);
+        });
+      },
+    );
   }
 
   @override
@@ -25,22 +68,30 @@ class _MainScreenState extends State<MainScreen> {
       appBar: AppBar(
         centerTitle: false,
         elevation: 0.0,
-        title: Text(
-          widget.title,
-          style: TextStyle(
-            fontSize: 28.0,
+        title: FittedBox(
+          fit: BoxFit.fitWidth,
+          child: Text(
+            'TrafficNow',
+            style: TextStyle(fontSize: 33.0, color: Colors.black),
           ),
         ),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.add,
+              color: Colors.black,
+              size: 30.0,
             ),
-          ],
-        ),
+            onPressed: () => _addItem(),
+          )
+        ],
+      ),
+      body: AnimatedList(
+        key: _listKey,
+        initialItemCount: testList.length,
+        itemBuilder: (context, index, animation) {
+          return _buildItem(testList[index].toString(), index, animation);
+        },
       ),
     );
   }
