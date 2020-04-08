@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:trafficnow/widget/mySwitchListTile.dart';
 
 class MainScreen extends StatefulWidget {
   MainScreen({Key key, this.title}) : super(key: key);
@@ -12,9 +14,9 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   List testList = [];
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
-//  int _index;
 
   void _addItem() {
+    print(_listKey.currentState);
     final int _index = testList.length;
     testList.insert(_index, _index);
     _listKey.currentState.insertItem(_index);
@@ -39,11 +41,8 @@ class _MainScreenState extends State<MainScreen> {
           ),
           child: Container(
             height: 100.0,
-            child: ListTile(
-              title: Text(
-                _item,
-              ),
-              //TODO: trailing insert switch
+            child: Center(
+              child: MySwitchListTile(title: _item),
             ),
           ),
         ),
@@ -99,12 +98,12 @@ class _MainScreenState extends State<MainScreen> {
         ],
       ),
       body: AnimatedList(
-        key: _listKey,
-        initialItemCount: testList.length,
-        itemBuilder: (context, index, animation) {
-          return _buildItem(testList[index].toString(), index, animation);
-        },
-      ),
+              key: _listKey,
+              initialItemCount: testList.length,
+              itemBuilder: (context, index, animation) {
+                return _buildItem(testList[index].toString(), index, animation);
+              },
+            ),
     );
   }
 }
