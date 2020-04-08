@@ -2,6 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:trafficnow/widget/mySwitchListTile.dart';
 
+//TODO: Add Screen with datepicker flutter_time_picker_spinner 1.0.6
+//TODO: Get Selected index
+//TODO: What to store for GOOGLE API
+//TODO: Setup Firebase
+//TODO: Push Notification
+//TODO: Setup GoogleMAPAPI (Places, direction)
+//TODO: Connects to the application
+//TODO: direction icon on leading - route to Google Map
+
 class MainScreen extends StatefulWidget {
   MainScreen({Key key, this.title}) : super(key: key);
 

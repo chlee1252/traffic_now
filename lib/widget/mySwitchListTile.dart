@@ -23,7 +23,7 @@ class _MySwitchListTileState extends State<MySwitchListTile> {
         });
       },
       activeColor: CupertinoColors.activeGreen,
-      title: Text(widget.title),
+      title: Text("6:00AM"),
     );
   }
 }
