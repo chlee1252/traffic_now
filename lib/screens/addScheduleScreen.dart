@@ -50,7 +50,7 @@ class _AddScheduleScreenState extends State<AddScheduleScreen> {
             SizedBox(height: 30.0),
             Container(
               child: Center(
-                child: Text(DateFormat.jm().format(date).toString()),
+                child: Text(DateFormat.jm().format(date)),
               ),
             ),
             SizedBox(height: 30.0),
@@ -62,7 +62,7 @@ class _AddScheduleScreenState extends State<AddScheduleScreen> {
                     child: Text('Add', style: TextStyle(fontSize: 20.0)),
                     textColor: Colors.blueAccent,
                     onPressed: () {
-                      Navigator.pop(context, DateFormat.jm().format(date));
+                      Navigator.pop(context, date);
                     },
                   ),
                   Container(

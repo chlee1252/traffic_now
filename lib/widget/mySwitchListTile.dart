@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 import 'package:trafficnow/widget/cupertinoSwitchListTile.dart';
 
 class MySwitchListTile extends StatefulWidget {
   MySwitchListTile({this.title});
 
-  final String title;
+  final DateTime title;
 
   @override
   _MySwitchListTileState createState() => _MySwitchListTileState();
@@ -24,7 +25,7 @@ class _MySwitchListTileState extends State<MySwitchListTile> {
       },
       activeColor: CupertinoColors.activeGreen,
       title: Text(
-        widget.title,
+        DateFormat.jm().format(widget.title),
         style: TextStyle(fontSize: 25.0),
       ),
     );

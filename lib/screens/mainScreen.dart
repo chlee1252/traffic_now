@@ -5,7 +5,7 @@ import 'package:trafficnow/screens/addScheduleScreen.dart';
 
 //TODO: Get Selected index
 //TODO: What to store for GOOGLE API
-//TODO: Setup Firebase
+//TODO: Setup Firebase or localStorage
 //TODO: Push Notification
 //TODO: Setup GoogleMAPAPI (Places, direction)
 //TODO: Connects to the application
@@ -22,11 +22,12 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   List testList = [];
-  var date;
+  DateTime date;
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
 
-  void _addItem(String value) {
+  void _addItem(DateTime value) {
     final int _index = testList.length;
+    print(value);
     testList.insert(_index, value);
     _listKey.currentState.insertItem(_index);
   }
@@ -37,14 +38,14 @@ class _MainScreenState extends State<MainScreen> {
     testList.removeAt(index);
   }
 
-  Widget _buildItem(String _item, int index, Animation _animation) {
+  Widget _buildItem(DateTime _item, int index, Animation _animation) {
     return Dismissible(
       key: Key("${testList[index]}"),
       direction: DismissDirection.endToStart,
       child: SizeTransition(
         sizeFactor: _animation,
         child: Card(
-          elevation: 4.0,
+          elevation: 2.0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15.0),
           ),
@@ -114,7 +115,7 @@ class _MainScreenState extends State<MainScreen> {
               setState(() {
                 this.date = result;
                 if (this.date != null) {
-                  _addItem(result.toString());
+                  _addItem(this.date);
                 }
               });
             },
@@ -125,7 +126,7 @@ class _MainScreenState extends State<MainScreen> {
         key: _listKey,
         initialItemCount: testList.length,
         itemBuilder: (context, index, animation) {
-          return _buildItem(testList[index].toString(), index, animation);
+          return _buildItem(testList[index], index, animation);
         },
       ),
     );
