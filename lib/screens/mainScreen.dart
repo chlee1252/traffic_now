@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:trafficnow/widget/mySwitchListTile.dart';
+import 'package:trafficnow/screens/addScheduleScreen.dart';
 
-//TODO: Add Screen with datepicker flutter_time_picker_spinner 1.0.6
 //TODO: Get Selected index
 //TODO: What to store for GOOGLE API
 //TODO: Setup Firebase
@@ -22,12 +22,12 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   List testList = [];
+  var date;
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
 
-  void _addItem() {
-    print(_listKey.currentState);
+  void _addItem(String value) {
     final int _index = testList.length;
-    testList.insert(_index, _index);
+    testList.insert(_index, value);
     _listKey.currentState.insertItem(_index);
   }
 
@@ -102,17 +102,32 @@ class _MainScreenState extends State<MainScreen> {
               color: Colors.black,
               size: 30.0,
             ),
-            onPressed: () => _addItem(),
+            onPressed: () async {
+              final result = await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return AddScheduleScreen();
+                  },
+                ),
+              );
+              setState(() {
+                this.date = result;
+                if (this.date != null) {
+                  _addItem(result.toString());
+                }
+              });
+            },
           )
         ],
       ),
       body: AnimatedList(
-              key: _listKey,
-              initialItemCount: testList.length,
-              itemBuilder: (context, index, animation) {
-                return _buildItem(testList[index].toString(), index, animation);
-              },
-            ),
+        key: _listKey,
+        initialItemCount: testList.length,
+        itemBuilder: (context, index, animation) {
+          return _buildItem(testList[index].toString(), index, animation);
+        },
+      ),
     );
   }
 }
