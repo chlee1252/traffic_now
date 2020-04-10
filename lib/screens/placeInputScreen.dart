@@ -8,6 +8,8 @@ class PlaceInputScreen extends StatefulWidget {
 
 class _PlaceInputScreenState extends State<PlaceInputScreen> {
   FocusNode _startFocusNode, _destFocusNode;
+  String _start = '';
+  String _dest = '';
 
   @override
   void initState() {
@@ -52,6 +54,11 @@ class _PlaceInputScreenState extends State<PlaceInputScreen> {
                       FocusScope.of(context).requestFocus(_startFocusNode);
                     });
                   },
+                  onChanged: (value) {
+                    setState(() {
+                      _start = value;
+                    });
+                  },
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(
@@ -73,6 +80,11 @@ class _PlaceInputScreenState extends State<PlaceInputScreen> {
                   onTap: () {
                     setState(() {
                       FocusScope.of(context).requestFocus(_destFocusNode);
+                    });
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      _dest = value;
                     });
                   },
                   decoration: InputDecoration(
@@ -97,16 +109,21 @@ class _PlaceInputScreenState extends State<PlaceInputScreen> {
                     style: TextStyle(fontSize: 20.0),
                   ),
                   textColor: Colors.blueAccent,
-                  onPressed: () {
+                  onPressed: () async {
                     FocusScope.of(context).unfocus();
-                    Navigator.push(
+                    final result = await Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (BuildContext context) {
-                          return AddScheduleScreen();
+                          return AddScheduleScreen(
+                            startPoint: _start,
+                            dest: _dest,
+                          );
                         },
                       ),
                     );
+
+                    Navigator.pop(context, result);
                   },
                 ),
               )

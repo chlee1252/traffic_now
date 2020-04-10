@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'package:trafficnow/module/userPlace.dart';
 
 class AddScheduleScreen extends StatefulWidget {
+
+  AddScheduleScreen({this.startPoint, this.dest});
+
+  final String startPoint;
+  final String dest;
   @override
   _AddScheduleScreenState createState() => _AddScheduleScreenState();
 }
@@ -68,7 +74,8 @@ class _AddScheduleScreenState extends State<AddScheduleScreen> {
                     child: Text('Add', style: TextStyle(fontSize: 20.0)),
                     textColor: Colors.blueAccent,
                     onPressed: () {
-                      Navigator.pop(context, date);
+//                      this._userPlace = ;
+                      Navigator.pop(context, new UserPlace(date: this.date, startPoint: widget.startPoint, dest: widget.dest));
                     },
                   ),
                   Container(

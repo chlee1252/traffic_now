@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:trafficnow/screens/placeInputScreen.dart';
 import 'package:trafficnow/widget/mySwitchListTile.dart';
-import 'package:trafficnow/screens/addScheduleScreen.dart';
+import 'package:trafficnow/module/userPlace.dart';
 
-//TODO: Get Selected index
 //TODO: What to store for GOOGLE API
 //TODO: Setup Firebase or localStorage
 //TODO: Push Notification
@@ -23,12 +22,14 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   List testList = [];
+  UserPlace _userPlace;
   DateTime date;
+  String start;
+  String dest;
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
 
-  void _addItem(DateTime value) {
+  void _addItem(UserPlace value) {
     final int _index = testList.length;
-    print(value);
     testList.insert(_index, value);
     _listKey.currentState.insertItem(_index);
   }
@@ -39,7 +40,7 @@ class _MainScreenState extends State<MainScreen> {
     testList.removeAt(index);
   }
 
-  Widget _buildItem(DateTime _item, int index, Animation _animation) {
+  Widget _buildItem(UserPlace _item, int index, Animation _animation) {
     return Dismissible(
       key: Key("${testList[index]}"),
       direction: DismissDirection.endToStart,
@@ -51,9 +52,13 @@ class _MainScreenState extends State<MainScreen> {
             borderRadius: BorderRadius.circular(15.0),
           ),
           child: Container(
-            height: 100.0,
+            height: 130.0,
             child: Center(
-              child: MySwitchListTile(title: _item),
+              child: MySwitchListTile(
+                date: _item.date,
+                start: _item.startPoint,
+                end: _item.dest,
+              ),
             ),
           ),
         ),
@@ -113,12 +118,13 @@ class _MainScreenState extends State<MainScreen> {
                   },
                 ),
               );
-//              setState(() {
-//                this.date = result;
-//                if (this.date != null) {
-//                  _addItem(this.date);
-//                }
-//              });
+
+              setState(() {
+                this._userPlace = result;
+                if (this._userPlace != null) {
+                  _addItem(this._userPlace);
+                }
+              });
             },
           )
         ],
