@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:trafficnow/screens/placeInputScreen.dart';
 import 'package:trafficnow/widget/mySwitchListTile.dart';
 import 'package:trafficnow/screens/addScheduleScreen.dart';
 
@@ -108,16 +109,16 @@ class _MainScreenState extends State<MainScreen> {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return AddScheduleScreen();
+                    return PlaceInputScreen();
                   },
                 ),
               );
-              setState(() {
-                this.date = result;
-                if (this.date != null) {
-                  _addItem(this.date);
-                }
-              });
+//              setState(() {
+//                this.date = result;
+//                if (this.date != null) {
+//                  _addItem(this.date);
+//                }
+//              });
             },
           )
         ],

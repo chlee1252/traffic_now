@@ -8,7 +8,14 @@ class AddScheduleScreen extends StatefulWidget {
 }
 
 class _AddScheduleScreenState extends State<AddScheduleScreen> {
-  DateTime date = DateTime.now();
+  DateTime date;
+
+  @override
+  void initState() {
+    super.initState();
+    this.date = DateTime.now();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +33,6 @@ class _AddScheduleScreenState extends State<AddScheduleScreen> {
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Card(
               elevation: 3.0,
