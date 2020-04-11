@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:trafficnow/widget/cupertinoSwitchListTile.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MySwitchListTile extends StatefulWidget {
   MySwitchListTile({this.date, this.start, this.end});
@@ -15,6 +16,17 @@ class MySwitchListTile extends StatefulWidget {
 }
 
 class _MySwitchListTileState extends State<MySwitchListTile> {
+//
+//  _launchURL(start, dest) async {
+//    final url = 'https://www.google.com/maps/dir/${start}/${dest}/';
+//    print(url);
+//    if (await canLaunch(url)) {
+//      await launch(url);
+//    } else {
+//      throw "Could not launch ${url}";
+//    }
+//  }
+
   bool _value = false;
   @override
   Widget build(BuildContext context) {
@@ -23,8 +35,11 @@ class _MySwitchListTileState extends State<MySwitchListTile> {
       secondary: IconButton(
         icon: Icon(Icons.directions, size: 35.0,),
         onPressed: () {
-          //TODO: Redirect to Google Map Application and Pass with Start/DEST Info
-          print("${widget.start} Button Clicked");
+//          try {
+//            _launchURL(widget.start, widget.end);
+//          } catch(e) {
+//            print(e);
+//          }
         },
       ),
       onChanged: (value) {

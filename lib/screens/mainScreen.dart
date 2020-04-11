@@ -113,7 +113,6 @@ class _MainScreenState extends State<MainScreen> {
             ),
             onPressed: () async {
               final result = await Navigator.pushNamed(context, PlaceInputScreen.id);
-
               setState(() {
                 this._userPlace = result;
                 if (this._userPlace != null) {

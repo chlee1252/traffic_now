@@ -114,7 +114,7 @@ class _PlaceInputScreenState extends State<PlaceInputScreen> {
                   textColor: Colors.blueAccent,
                   onPressed: () async {
                     FocusScope.of(context).unfocus();
-                    final result = await Navigator.pushNamed(context, AddScheduleScreen.id);
+                    final result = await Navigator.pushNamed(context, AddScheduleScreen.id, arguments: {'startPoint': _start, 'dest': _dest});
 
                     Navigator.pop(context, result);
                   },
