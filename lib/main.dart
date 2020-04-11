@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:trafficnow/screens/addScheduleScreen.dart';
+import 'package:trafficnow/screens/mainScreen.dart';
+import 'package:trafficnow/screens/placeInputScreen.dart';
 
-import './screens/mainScreen.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -16,6 +19,12 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.white,
       ),
       home: MainScreen(title: 'TrafficNow'),
+      initialRoute: MainScreen.id,
+      routes: {
+        MainScreen.id: (context) => MainScreen(),
+        AddScheduleScreen.id: (context) => AddScheduleScreen(),
+        PlaceInputScreen.id: (context) => PlaceInputScreen(),
+      },
     );
   }
 }

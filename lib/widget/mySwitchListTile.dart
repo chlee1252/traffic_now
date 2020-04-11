@@ -21,7 +21,7 @@ class _MySwitchListTileState extends State<MySwitchListTile> {
     return CupertinoSwitchListTile(
       value: _value,
       secondary: IconButton(
-        icon: Icon(Icons.directions, size: 35.0),
+        icon: Icon(Icons.directions, size: 35.0,),
         onPressed: () {
           //TODO: Redirect to Google Map Application and Pass with Start/DEST Info
           print("${widget.start} Button Clicked");

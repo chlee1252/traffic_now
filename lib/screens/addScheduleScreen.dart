@@ -7,6 +7,7 @@ class AddScheduleScreen extends StatefulWidget {
 
   AddScheduleScreen({this.startPoint, this.dest});
 
+  static final String id = "AddScheduleScreen";
   final String startPoint;
   final String dest;
   @override

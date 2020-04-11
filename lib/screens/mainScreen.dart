@@ -5,14 +5,16 @@ import 'package:trafficnow/widget/mySwitchListTile.dart';
 import 'package:trafficnow/module/userPlace.dart';
 
 //TODO: What to store for GOOGLE API
-//TODO: Setup Firebase or localStorage
+//TODO: Setup localStorage (Offline Service)
 //TODO: Push Notification
-//TODO: Setup GoogleMAPAPI (Places, direction)
+//TODO: Setup GoogleMAP API (Places, direction)
 //TODO: Connects to the application
 //TODO: direction icon on leading - route to Google Map
 
 class MainScreen extends StatefulWidget {
   MainScreen({Key key, this.title}) : super(key: key);
+
+  static final String id = "MainScreen";
 
   final String title;
 
@@ -52,7 +54,7 @@ class _MainScreenState extends State<MainScreen> {
             borderRadius: BorderRadius.circular(15.0),
           ),
           child: Container(
-            height: 130.0,
+            height: 120.0,
             child: Center(
               child: MySwitchListTile(
                 date: _item.date,
@@ -110,14 +112,7 @@ class _MainScreenState extends State<MainScreen> {
               size: 30.0,
             ),
             onPressed: () async {
-              final result = await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return PlaceInputScreen();
-                  },
-                ),
-              );
+              final result = await Navigator.pushNamed(context, PlaceInputScreen.id);
 
               setState(() {
                 this._userPlace = result;

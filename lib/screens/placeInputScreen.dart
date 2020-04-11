@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:trafficnow/screens/addScheduleScreen.dart';
 
 class PlaceInputScreen extends StatefulWidget {
+
+  static final String id = "PlaceInputScreen";
+
   @override
   _PlaceInputScreenState createState() => _PlaceInputScreenState();
 }
@@ -111,17 +114,7 @@ class _PlaceInputScreenState extends State<PlaceInputScreen> {
                   textColor: Colors.blueAccent,
                   onPressed: () async {
                     FocusScope.of(context).unfocus();
-                    final result = await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) {
-                          return AddScheduleScreen(
-                            startPoint: _start,
-                            dest: _dest,
-                          );
-                        },
-                      ),
-                    );
+                    final result = await Navigator.pushNamed(context, AddScheduleScreen.id);
 
                     Navigator.pop(context, result);
                   },
