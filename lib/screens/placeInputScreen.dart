@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:trafficnow/screens/addScheduleScreen.dart';
+import 'package:trafficnow/API/credential.dart';
+import 'package:flutter_google_places/flutter_google_places.dart';
+import 'package:google_maps_webservice/places.dart';
+import 'package:trafficnow/widget/myDialog.dart';
 
 class PlaceInputScreen extends StatefulWidget {
-
   static final String id = "PlaceInputScreen";
 
   @override
@@ -11,21 +14,37 @@ class PlaceInputScreen extends StatefulWidget {
 
 class _PlaceInputScreenState extends State<PlaceInputScreen> {
   FocusNode _startFocusNode, _destFocusNode;
-  String _start = '';
-  String _dest = '';
+  TextEditingController _startController, _destController;
+  String _start;
+  String _dest;
 
   @override
   void initState() {
     super.initState();
     _startFocusNode = new FocusNode();
     _destFocusNode = new FocusNode();
+    _startController = new TextEditingController();
+    _destController = new TextEditingController();
   }
 
   @override
   void dispose() {
     _startFocusNode.dispose();
     _destFocusNode.dispose();
+    _startController.dispose();
+    _destController.dispose();
     super.dispose();
+  }
+
+  Future<Prediction> getPrediction() async {
+    Prediction p = await PlacesAutocomplete.show(
+        context: context,
+        apiKey: myKey,
+        mode: Mode.fullscreen,
+        language: "en",
+        components: [new Component(Component.country, "us")]);
+
+    return p;
   }
 
   @override
@@ -52,10 +71,17 @@ class _PlaceInputScreenState extends State<PlaceInputScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: TextField(
                   focusNode: _startFocusNode,
-                  onTap: () {
-                    setState(() {
-                      FocusScope.of(context).requestFocus(_startFocusNode);
-                    });
+                  controller: _startController,
+                  onTap: () async {
+                    var value = await getPrediction();
+
+                    if (value != null) {
+                      _startController.text = value.description;
+                      setState(() {
+                        FocusScope.of(context).requestFocus(new FocusNode());
+                        _start = value.description;
+                      });
+                    }
                   },
                   onChanged: (value) {
                     setState(() {
@@ -80,10 +106,17 @@ class _PlaceInputScreenState extends State<PlaceInputScreen> {
                     const EdgeInsets.only(top: 30.0, left: 8.0, right: 8.0),
                 child: TextField(
                   focusNode: _destFocusNode,
-                  onTap: () {
-                    setState(() {
-                      FocusScope.of(context).requestFocus(_destFocusNode);
-                    });
+                  controller: _destController,
+                  onTap: () async {
+                    var value = await getPrediction();
+
+                    if (value != null) {
+                      _destController.text = value.description;
+                      setState(() {
+                        _dest = value?.description;
+                      });
+                    }
+                    FocusScope.of(context).requestFocus(new FocusNode());
                   },
                   onChanged: (value) {
                     setState(() {
@@ -114,9 +147,17 @@ class _PlaceInputScreenState extends State<PlaceInputScreen> {
                   textColor: Colors.blueAccent,
                   onPressed: () async {
                     FocusScope.of(context).unfocus();
-                    final result = await Navigator.pushNamed(context, AddScheduleScreen.id, arguments: {'startPoint': _start, 'dest': _dest});
-
-                    Navigator.pop(context, result);
+                    if (this._start == null || this._dest == null) {
+                      closeButtonDialog(
+                          context: context,
+                          title: "Input Error",
+                          content: "Please Enter all your input! :)");
+                    } else {
+                      final result = await Navigator.pushNamed(
+                          context, AddScheduleScreen.id,
+                          arguments: {'startPoint': _start, 'dest': _dest});
+                      Navigator.pop(context, result);
+                    }
                   },
                 ),
               )

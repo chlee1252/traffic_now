@@ -4,18 +4,15 @@ import 'package:trafficnow/screens/placeInputScreen.dart';
 import 'package:trafficnow/widget/mySwitchListTile.dart';
 import 'package:trafficnow/module/userPlace.dart';
 
-//TODO: What to store for GOOGLE API
 //TODO: Setup localStorage (Offline Service)
 //TODO: Push Notification
 //TODO: Setup GoogleMAP API (Places, direction)
-//TODO: Connects to the application
 //TODO: direction icon on leading - route to Google Map
 
 class MainScreen extends StatefulWidget {
   MainScreen({Key key, this.title}) : super(key: key);
 
   static final String id = "MainScreen";
-
   final String title;
 
   @override

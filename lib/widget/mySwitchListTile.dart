@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'package:trafficnow/API/credential.dart';
 import 'package:trafficnow/widget/cupertinoSwitchListTile.dart';
+import 'package:trafficnow/widget/myDialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MySwitchListTile extends StatefulWidget {
@@ -16,14 +18,14 @@ class MySwitchListTile extends StatefulWidget {
 }
 
 class _MySwitchListTileState extends State<MySwitchListTile> {
-//
 //  _launchURL(start, dest) async {
-//    final url = 'https://www.google.com/maps/dir/${start}/${dest}/';
+//    final url =
+//        'https://www.google.com/maps/dir/?api=$myKey&origin=${start}&destination=$dest';
 //    print(url);
 //    if (await canLaunch(url)) {
 //      await launch(url);
 //    } else {
-//      throw "Could not launch ${url}";
+//      throw "Could not launch $url";
 //    }
 //  }
 
@@ -33,11 +35,17 @@ class _MySwitchListTileState extends State<MySwitchListTile> {
     return CupertinoSwitchListTile(
       value: _value,
       secondary: IconButton(
-        icon: Icon(Icons.directions, size: 35.0,),
+        icon: Icon(
+          Icons.directions,
+          size: 35.0,
+        ),
         onPressed: () {
+          //TODO: Google Map
 //          try {
-//            _launchURL(widget.start, widget.end);
-//          } catch(e) {
+//            var start = widget.start.replaceAll(' ', '+').replaceAll(',', '');
+//            var end = widget.end.replaceAll(' ', '+').replaceAll(',', '');
+//            _launchURL(start, end);
+//          } catch (e) {
 //            print(e);
 //          }
         },
@@ -49,22 +57,10 @@ class _MySwitchListTileState extends State<MySwitchListTile> {
         if (_value) {
           //TODO: Do Something when Switch is on
           //Below Dialog is only for test cases.
-          showDialog(
-            context: context,
-            builder: (BuildContext context) => new CupertinoAlertDialog(
-              title: Text("Turned On!"),
-              content: Text("Your ${widget.start} is on!"),
-              actions: [
-                CupertinoDialogAction(
-                  isDefaultAction: true,
-                  child: new Text("Close"),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                )
-              ],
-            ),
-          );
+          closeButtonDialog(
+              context: context,
+              title: "Turned On!",
+              content: "Your ${widget.start} is on!");
         }
       },
       activeColor: CupertinoColors.activeGreen,
@@ -81,7 +77,7 @@ class _MySwitchListTileState extends State<MySwitchListTile> {
                   TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
             ),
             TextSpan(
-              text: "${widget.start}\n",
+              text: "${widget.start.split(',')[0]}\n",
               style: TextStyle(color: Colors.grey),
             ),
             TextSpan(
@@ -90,7 +86,7 @@ class _MySwitchListTileState extends State<MySwitchListTile> {
                   TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
             ),
             TextSpan(
-              text: widget.end,
+              text: widget.end.split(',')[0],
               style: TextStyle(color: Colors.grey),
             ),
           ],
