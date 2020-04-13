@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trafficnow/module/userPlace.dart';
 import 'package:trafficnow/screens/addScheduleScreen.dart';
 import 'package:trafficnow/API/credential.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
@@ -15,8 +16,7 @@ class PlaceInputScreen extends StatefulWidget {
 class _PlaceInputScreenState extends State<PlaceInputScreen> {
   FocusNode _startFocusNode, _destFocusNode;
   TextEditingController _startController, _destController;
-  String _start;
-  String _dest;
+  UserPlace _data;
 
   @override
   void initState() {
@@ -25,6 +25,7 @@ class _PlaceInputScreenState extends State<PlaceInputScreen> {
     _destFocusNode = new FocusNode();
     _startController = new TextEditingController();
     _destController = new TextEditingController();
+    _data = new UserPlace();
   }
 
   @override
@@ -77,15 +78,17 @@ class _PlaceInputScreenState extends State<PlaceInputScreen> {
 
                     if (value != null) {
                       _startController.text = value.description;
+                      print(value.id);
                       setState(() {
                         FocusScope.of(context).requestFocus(new FocusNode());
-                        _start = value.description;
+                        this._data.startPoint = value?.description;
+                        this._data.startID = value?.id;
                       });
                     }
                   },
                   onChanged: (value) {
                     setState(() {
-                      _start = value;
+                      this._data.startPoint = value;
                     });
                   },
                   decoration: InputDecoration(
@@ -113,14 +116,15 @@ class _PlaceInputScreenState extends State<PlaceInputScreen> {
                     if (value != null) {
                       _destController.text = value.description;
                       setState(() {
-                        _dest = value?.description;
+                        this._data.dest = value?.description;
+                        this._data.destID = value?.id;
                       });
                     }
                     FocusScope.of(context).requestFocus(new FocusNode());
                   },
                   onChanged: (value) {
                     setState(() {
-                      _dest = value;
+                      this._data.dest = value;
                     });
                   },
                   decoration: InputDecoration(
@@ -147,7 +151,7 @@ class _PlaceInputScreenState extends State<PlaceInputScreen> {
                   textColor: Colors.blueAccent,
                   onPressed: () async {
                     FocusScope.of(context).unfocus();
-                    if (this._start == null || this._dest == null) {
+                    if (this._data.startPoint == null || this._data.dest == null) {
                       closeButtonDialog(
                           context: context,
                           title: "Input Error",
@@ -155,7 +159,7 @@ class _PlaceInputScreenState extends State<PlaceInputScreen> {
                     } else {
                       final result = await Navigator.pushNamed(
                           context, AddScheduleScreen.id,
-                          arguments: {'startPoint': _start, 'dest': _dest});
+                          arguments: {'data': this._data});
                       Navigator.pop(context, result);
                     }
                   },

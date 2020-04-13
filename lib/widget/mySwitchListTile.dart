@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
-import 'package:trafficnow/API/credential.dart';
+//import 'package:trafficnow/API/credential.dart';
 import 'package:trafficnow/widget/cupertinoSwitchListTile.dart';
 import 'package:trafficnow/widget/myDialog.dart';
-import 'package:url_launcher/url_launcher.dart';
+//import 'package:url_launcher/url_launcher.dart';
 
 class MySwitchListTile extends StatefulWidget {
   MySwitchListTile({this.date, this.start, this.end});

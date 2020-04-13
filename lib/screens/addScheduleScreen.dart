@@ -73,7 +73,8 @@ class _AddScheduleScreenState extends State<AddScheduleScreen> {
                     child: Text('Add', style: TextStyle(fontSize: 20.0)),
                     textColor: Colors.blueAccent,
                     onPressed: () {
-                      Navigator.pop(context, UserPlace(date: this.date, startPoint: args['startPoint'], dest: args['dest']));
+                      args['data'].date = this.date;
+                      Navigator.pop(context, args['data']);
                     },
                   ),
                   Container(
