@@ -8,7 +8,7 @@ import 'package:trafficnow/module/userPlace.dart';
 //TODO: Push Notification
 //TODO: Setup GoogleMAP API (Places, direction)
 // ["routes"][0]["legs"][0]["duration_in_traffic"]['text']
-//https://maps.googleapis.com/maps/api/directions/json?departure_time=now&origin=place_id:{}&destination=place_id:{}&key=AIzaSyA3SjG-fx32NTlaPIsug5tN30LpMA3Sru4
+//https://maps.googleapis.com/maps/api/directions/json?departure_time=now&origin=place_id:{}&destination=place_id:{}&key=myKey
 //TODO: direction icon on leading - route to Google Map
 
 class MainScreen extends StatefulWidget {
