@@ -4,11 +4,13 @@ import 'package:intl/intl.dart';
 //import 'package:trafficnow/API/credential.dart';
 import 'package:trafficnow/widget/cupertinoSwitchListTile.dart';
 import 'package:trafficnow/widget/myDialog.dart';
+import 'package:trafficnow/module/userPlace.dart';
 //import 'package:url_launcher/url_launcher.dart';
 
 class MySwitchListTile extends StatefulWidget {
-  MySwitchListTile({this.date, this.start, this.end});
+  MySwitchListTile({this.date, this.start, this.end, this.data});
 
+  final UserPlace data;
   final DateTime date;
   final String start;
   final String end;
@@ -29,11 +31,10 @@ class _MySwitchListTileState extends State<MySwitchListTile> {
 //    }
 //  }
 
-  bool _value = false;
   @override
   Widget build(BuildContext context) {
     return CupertinoSwitchListTile(
-      value: _value,
+      value: widget.data.turnON,
       secondary: IconButton(
         icon: Icon(
           Icons.directions,
@@ -52,9 +53,9 @@ class _MySwitchListTileState extends State<MySwitchListTile> {
       ),
       onChanged: (value) {
         setState(() {
-          _value = value;
+          widget.data.turnON = value;
         });
-        if (_value) {
+        if (widget.data.turnON) {
           //TODO: Do Something when Switch is on
           //Below Dialog is only for test cases.
           closeButtonDialog(
