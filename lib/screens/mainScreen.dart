@@ -3,12 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:trafficnow/screens/placeInputScreen.dart';
 import 'package:trafficnow/widget/mySwitchListTile.dart';
 import 'package:trafficnow/module/userPlace.dart';
+import 'package:trafficnow/module/scheduleList.dart';
+import 'package:trafficnow/storage/storage.dart';
 
-//TODO: Setup localStorage (Offline Service)
+//TODO: Setup localStorage (Offline Service), getter and setter not working properly.
 //TODO: Push Notification
 //TODO: Setup GoogleMAP API (Places, direction)
 // ["routes"][0]["legs"][0]["duration_in_traffic"]['text']
-//https://maps.googleapis.com/maps/api/directions/json?departure_time=now&origin=place_id:{}&destination=place_id:{}&key=myKey
+// https://maps.googleapis.com/maps/api/directions/json?departure_time=now&origin=place_id:{}&destination=place_id:{}&key=myKey
 //TODO: direction icon on leading - route to Google Map
 
 class MainScreen extends StatefulWidget {
@@ -22,28 +24,40 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  List testList = [];
+  ScheduleList testList = new ScheduleList();
   UserPlace _userPlace;
   DateTime date;
-  String start;
-  String dest;
+  String start, dest;
+  Storage storage;
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
 
+  @override
+  void initState() {
+    super.initState();
+    storage = new Storage();
+    setState(() {
+      testList = storage.scheduleList;
+    });
+  }
+
   void _addItem(UserPlace value) {
-    final int _index = testList.length;
-    testList.insert(_index, value);
+    print(storage.getItems());
+    final int _index = testList.scheduleList.length;
+    testList.scheduleList.insert(_index, value);
     _listKey.currentState.insertItem(_index);
+    storage.setItem(testList);
   }
 
   void _removeItem(int index) {
     _listKey.currentState
         .removeItem(index, (context, animation) => Container());
-    testList.removeAt(index);
+    testList.scheduleList.removeAt(index);
+    storage.setItem(testList);
   }
 
   Widget _buildItem(UserPlace _item, int index, Animation _animation) {
     return Dismissible(
-      key: Key("${testList[index]}"),
+      key: Key("${testList.scheduleList[index]}"),
       direction: DismissDirection.endToStart,
       child: SizeTransition(
         sizeFactor: _animation,
@@ -59,6 +73,7 @@ class _MainScreenState extends State<MainScreen> {
                 date: _item.date,
                 start: _item.startPoint,
                 end: _item.dest,
+                data: _item,
               ),
             ),
           ),
@@ -124,9 +139,9 @@ class _MainScreenState extends State<MainScreen> {
       ),
       body: AnimatedList(
         key: _listKey,
-        initialItemCount: testList.length,
-        itemBuilder: (context, index, animation) {
-          return _buildItem(testList[index], index, animation);
+        initialItemCount: testList.scheduleList.length,
+        itemBuilder: (context, index, animation,) {
+          return _buildItem(testList.scheduleList[index], index, animation);
         },
       ),
     );
