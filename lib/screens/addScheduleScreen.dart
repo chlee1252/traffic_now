@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
-import 'package:trafficnow/module/userPlace.dart';
 
 class AddScheduleScreen extends StatefulWidget {
 
