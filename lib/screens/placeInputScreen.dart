@@ -78,7 +78,6 @@ class _PlaceInputScreenState extends State<PlaceInputScreen> {
 
                     if (value != null) {
                       _startController.text = value.description;
-                      print(value.id);
                       setState(() {
                         FocusScope.of(context).requestFocus(new FocusNode());
                         this._data.startPoint = value?.description;
