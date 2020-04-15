@@ -23,9 +23,9 @@ class _AddScheduleScreenState extends State<AddScheduleScreen> {
   Widget build(BuildContext context) {
     final Map args = ModalRoute.of(context).settings.arguments as Map;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color.fromRGBO(148, 119, 255, 1.0),
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        elevation: 0.0,
         title: FittedBox(
           fit: BoxFit.fitWidth,
           child: Text(
@@ -35,63 +35,66 @@ class _AddScheduleScreenState extends State<AddScheduleScreen> {
         ),
       ),
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Card(
-              elevation: 3.0,
-              shadowColor: Colors.black,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0),
-              ),
-              child: Container(
-                height: MediaQuery.of(context).size.height * 0.3,
-                child: CupertinoDatePicker(
-                  initialDateTime: date,
-                  mode: CupertinoDatePickerMode.time,
-                  onDateTimeChanged: (datetime) {
-                    setState(() {
-                      date = datetime;
-                    });
-                  },
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Card(
+            elevation: 3.0,
+            shadowColor: Colors.black,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.3,
+                  child: CupertinoDatePicker(
+                    initialDateTime: date,
+                    mode: CupertinoDatePickerMode.time,
+                    onDateTimeChanged: (datetime) {
+                      setState(() {
+                        date = datetime;
+                      });
+                    },
+                  ),
                 ),
-              ),
-            ),
-            SizedBox(height: 30.0),
-            Container(
-              child: Center(
-                child: Text(DateFormat.jm().format(date)),
-              ),
-            ),
-            SizedBox(height: 30.0),
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  FlatButton(
-                    child: Text('Add', style: TextStyle(fontSize: 20.0)),
-                    textColor: Colors.blueAccent,
-                    onPressed: () {
-                      args['data'].date = this.date;
-                      Navigator.pop(context, args['data']);
-                    },
+                SizedBox(height: 30.0),
+                Container(
+                  child: Center(
+                    child: Text(DateFormat.jm().format(date), style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold, color: Color.fromRGBO(148, 119, 255, 1.0),),),
                   ),
-                  Container(
-                    width: 1.0,
-                    height: 30.0,
-                    color: Colors.grey,
-                  ), //This is Vertical Divider
-                  FlatButton(
-                    child: Text('Cancel', style: TextStyle(fontSize: 20.0)),
-                    textColor: Colors.blueAccent,
-                    onPressed: () {
-                      Navigator.pop(context, null);
-                    },
+                ),
+                SizedBox(height: 30.0),
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      FlatButton(
+                        child: Text('Add', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
+                        textColor: Color.fromRGBO(148, 119, 255, 1.0),
+                        onPressed: () {
+                          args['data'].date = this.date;
+                          Navigator.pop(context, args['data']);
+                        },
+                      ),
+                      Container(
+                        width: 1.0,
+                        height: 30.0,
+                        color: Color.fromRGBO(148, 119, 255, 1.0),
+                      ), //This is Vertical Divider
+                      FlatButton(
+                        child: Text('Cancel', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
+                        textColor: Color.fromRGBO(148, 119, 255, 1.0),
+                        onPressed: () {
+                          Navigator.pop(context, null);
+                        },
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

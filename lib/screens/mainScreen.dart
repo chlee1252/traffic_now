@@ -66,6 +66,7 @@ class _MainScreenState extends State<MainScreen> {
       child: SizeTransition(
         sizeFactor: _animation,
         child: Card(
+          color: Colors.white,
           elevation: 2.0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15.0),
@@ -111,7 +112,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color.fromRGBO(148, 119, 255, 1.0),
       appBar: AppBar(
         centerTitle: false,
         elevation: 0.0,
@@ -119,18 +120,19 @@ class _MainScreenState extends State<MainScreen> {
           fit: BoxFit.fitWidth,
           child: Text(
             'TrafficNow',
-            style: TextStyle(fontSize: 33.0, color: Colors.black),
+            style: TextStyle(fontSize: 33.0, color: Colors.white),
           ),
         ),
         actions: <Widget>[
           IconButton(
             icon: Icon(
               Icons.add,
-              color: Colors.black,
+              color: Colors.white,
               size: 30.0,
             ),
             onPressed: () async {
-              final result = await Navigator.pushNamed(context, PlaceInputScreen.id);
+              final result =
+                  await Navigator.pushNamed(context, PlaceInputScreen.id);
               setState(() {
                 this._userPlace = result;
                 if (this._userPlace != null) {
@@ -141,13 +143,20 @@ class _MainScreenState extends State<MainScreen> {
           )
         ],
       ),
-      body: testList == null ? Center(child: CircularProgressIndicator(),) : AnimatedList(
-        key: _listKey,
-        initialItemCount: testList.scheduleList.length,
-        itemBuilder: (context, index, animation,) {
-          return _buildItem(testList.scheduleList[index], index, animation);
-        },
-      ),
+      body: testList == null
+          ? Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+              ),
+            )
+          : AnimatedList(
+              key: _listKey,
+              initialItemCount: testList.scheduleList.length,
+              itemBuilder: (context, index, animation) {
+                return _buildItem(
+                    testList.scheduleList[index], index, animation);
+              },
+            ),
     );
   }
 }

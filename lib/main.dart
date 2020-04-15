@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'TrafficNow',
       theme: ThemeData(
-        primaryColor: Colors.white,
+        primaryColor: Color.fromRGBO(148, 119, 255, 1.0),
       ),
       home: MainScreen(title: 'TrafficNow'),
       initialRoute: MainScreen.id,

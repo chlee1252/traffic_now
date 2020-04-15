@@ -68,7 +68,7 @@ class _MySwitchListTileState extends State<MySwitchListTile> {
               content: "Your ${widget.data.startPoint} is on!");
         }
       },
-      activeColor: CupertinoColors.activeGreen,
+      activeColor: Color.fromRGBO(148, 119, 255, 1.0),
       title: Text(
         DateFormat.jm().format(widget.data.date),
         style: TextStyle(fontSize: 25.0),
