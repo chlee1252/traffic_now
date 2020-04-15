@@ -5,12 +5,17 @@ import 'package:intl/intl.dart';
 import 'package:trafficnow/widget/cupertinoSwitchListTile.dart';
 import 'package:trafficnow/widget/myDialog.dart';
 import 'package:trafficnow/module/userPlace.dart';
+import 'package:trafficnow/storage/storage.dart';
+import 'package:trafficnow/module/scheduleList.dart';
 //import 'package:url_launcher/url_launcher.dart';
 
 class MySwitchListTile extends StatefulWidget {
-  MySwitchListTile({this.data});
+  MySwitchListTile({this.data, this.index, this.storage, this.list});
 
   final UserPlace data;
+  final int index;
+  final Storage storage;
+  final ScheduleList list;
 
   @override
   _MySwitchListTileState createState() => _MySwitchListTileState();
@@ -49,9 +54,12 @@ class _MySwitchListTileState extends State<MySwitchListTile> {
         },
       ),
       onChanged: (value) {
+        print(widget.index);
         setState(() {
           widget.data.turnON = value;
         });
+//        widget.list.scheduleList[widget.index] = widget.data;
+//        widget.storage.setItem(widget.list);
         if (widget.data.turnON) {
           //TODO: Do Something when Switch is on
           //Below Dialog is only for test cases.
