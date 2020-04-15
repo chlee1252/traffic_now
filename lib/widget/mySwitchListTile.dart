@@ -58,8 +58,8 @@ class _MySwitchListTileState extends State<MySwitchListTile> {
         setState(() {
           widget.data.turnON = value;
         });
-//        widget.list.scheduleList[widget.index] = widget.data;
-//        widget.storage.setItem(widget.list);
+        widget.list.scheduleList[widget.index] = widget.data;
+        widget.storage.setItem(widget.list);
         if (widget.data.turnON) {
           //TODO: Do Something when Switch is on
           //Below Dialog is only for test cases.
