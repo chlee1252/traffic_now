@@ -35,14 +35,9 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
     storage.isReady().then((data) {
       setState(() {
-        if (data) {
-          testList = storage.getItems();
-        } else {
-          testList = new ScheduleList();
-        }
+        data ? testList = storage.getItems() : testList = new ScheduleList();
       });
     });
-
   }
 
   void _addItem(UserPlace value) {
