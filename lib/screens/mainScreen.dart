@@ -6,7 +6,6 @@ import 'package:trafficnow/module/userPlace.dart';
 import 'package:trafficnow/module/scheduleList.dart';
 import 'package:trafficnow/storage/storage.dart';
 
-//TODO: Setup localStorage (Offline Service), getter and setter not working properly.
 //TODO: Push Notification
 //TODO: Setup GoogleMAP API (Places, direction)
 // ["routes"][0]["legs"][0]["duration_in_traffic"]['text']

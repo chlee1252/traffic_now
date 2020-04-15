@@ -7,20 +7,24 @@ class Storage {
   ScheduleList scheduleList = new ScheduleList();
   LocalStorage storage = LocalStorage('app.json');
 
+  // Check the storage is ready
   isReady() async {
     bool ready = await storage.ready;
     return ready;
   }
 
+  // Set item to local storage
   setItem(ScheduleList list) {
     storage.setItem('item', list.supportJSON());
   }
 
+  // Clear all Item in localStorage
   clearItem() async {
     await storage.clear();
     scheduleList.scheduleList = [];
   }
 
+  // Get items from local storage
   getItems() {
     final result = storage.getItem('item');
     if (result != null) {
