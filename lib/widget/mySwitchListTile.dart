@@ -8,12 +8,9 @@ import 'package:trafficnow/module/userPlace.dart';
 //import 'package:url_launcher/url_launcher.dart';
 
 class MySwitchListTile extends StatefulWidget {
-  MySwitchListTile({this.date, this.start, this.end, this.data});
+  MySwitchListTile({this.data});
 
   final UserPlace data;
-  final DateTime date;
-  final String start;
-  final String end;
 
   @override
   _MySwitchListTileState createState() => _MySwitchListTileState();
@@ -61,12 +58,12 @@ class _MySwitchListTileState extends State<MySwitchListTile> {
           closeButtonDialog(
               context: context,
               title: "Turned On!",
-              content: "Your ${widget.start} is on!");
+              content: "Your ${widget.data.startPoint} is on!");
         }
       },
       activeColor: CupertinoColors.activeGreen,
       title: Text(
-        DateFormat.jm().format(widget.date),
+        DateFormat.jm().format(widget.data.date),
         style: TextStyle(fontSize: 25.0),
       ),
       subtitle: RichText(
@@ -78,7 +75,7 @@ class _MySwitchListTileState extends State<MySwitchListTile> {
                   TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
             ),
             TextSpan(
-              text: "${widget.start.split(',')[0]}\n",
+              text: "${widget.data.startPoint.split(',')[0]}\n",
               style: TextStyle(color: Colors.grey),
             ),
             TextSpan(
@@ -87,7 +84,7 @@ class _MySwitchListTileState extends State<MySwitchListTile> {
                   TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
             ),
             TextSpan(
-              text: widget.end.split(',')[0],
+              text: widget.data.dest.split(',')[0],
               style: TextStyle(color: Colors.grey),
             ),
           ],
