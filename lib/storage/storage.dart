@@ -5,10 +5,20 @@ import 'package:trafficnow/module/userPlace.dart';
 
 class Storage {
   ScheduleList scheduleList = new ScheduleList();
-  final LocalStorage storage = LocalStorage('app.json');
+  LocalStorage storage = LocalStorage('app.json');
+
+  isReady() async {
+    bool ready = await storage.ready;
+    return ready;
+  }
 
   setItem(ScheduleList list) {
     storage.setItem('item', list.supportJSON());
+  }
+
+  clearItem() async {
+    await storage.clear();
+    scheduleList.scheduleList = [];
   }
 
   getItems() {
@@ -27,9 +37,7 @@ class Storage {
         ),
       );
     }
+    return scheduleList;
   }
 
-//  Storage() {
-//   getItems();
-//  }
 }

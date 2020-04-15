@@ -54,7 +54,6 @@ class _MySwitchListTileState extends State<MySwitchListTile> {
         },
       ),
       onChanged: (value) {
-        print(widget.index);
         setState(() {
           widget.data.turnON = value;
         });

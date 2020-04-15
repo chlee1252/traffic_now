@@ -24,35 +24,45 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  ScheduleList testList = new ScheduleList();
+  ScheduleList testList;
   UserPlace _userPlace;
   DateTime date;
   String start, dest;
-  Storage storage;
+  Storage storage = new Storage();
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
 
   @override
   void initState() {
     super.initState();
-    storage = new Storage();
-    setState(() {
-      testList = storage.scheduleList;
+    storage.isReady().then((data) {
+      setState(() {
+        if (data) {
+          testList = storage.getItems();
+        } else {
+          testList = new ScheduleList();
+        }
+      });
     });
+
   }
 
   void _addItem(UserPlace value) {
-    print(storage.getItems());
     final int _index = testList.scheduleList.length;
     testList.scheduleList.insert(_index, value);
     _listKey.currentState.insertItem(_index);
-    storage.setItem(testList);
+    setState(() {
+      storage.setItem(testList);
+    });
   }
 
   void _removeItem(int index) {
     _listKey.currentState
         .removeItem(index, (context, animation) => Container());
     testList.scheduleList.removeAt(index);
-    storage.setItem(testList);
+    setState(() {
+      storage.setItem(testList);
+      testList = storage.scheduleList;
+    });
   }
 
   Widget _buildItem(UserPlace _item, int index, Animation _animation) {
@@ -70,10 +80,10 @@ class _MainScreenState extends State<MainScreen> {
             height: 120.0,
             child: Center(
               child: MySwitchListTile(
-                date: _item.date,
-                start: _item.startPoint,
-                end: _item.dest,
                 data: _item,
+                index: index,
+                storage: this.storage,
+                list: this.testList,
               ),
             ),
           ),
@@ -137,7 +147,7 @@ class _MainScreenState extends State<MainScreen> {
           )
         ],
       ),
-      body: AnimatedList(
+      body: testList == null ? Center(child: CircularProgressIndicator(),) : AnimatedList(
         key: _listKey,
         initialItemCount: testList.scheduleList.length,
         itemBuilder: (context, index, animation,) {
