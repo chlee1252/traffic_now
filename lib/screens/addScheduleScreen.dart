@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
 class AddScheduleScreen extends StatefulWidget {
-
   static final String id = "AddScheduleScreen";
 
   @override
@@ -23,7 +22,7 @@ class _AddScheduleScreenState extends State<AddScheduleScreen> {
   Widget build(BuildContext context) {
     final Map args = ModalRoute.of(context).settings.arguments as Map;
     return Scaffold(
-      backgroundColor: Color.fromRGBO(148, 119, 255, 1.0),
+      backgroundColor: Color.fromRGBO(219, 235, 196, 1.0),
       appBar: AppBar(
         elevation: 0.0,
         title: FittedBox(
@@ -61,7 +60,14 @@ class _AddScheduleScreenState extends State<AddScheduleScreen> {
                 SizedBox(height: 30.0),
                 Container(
                   child: Center(
-                    child: Text(DateFormat.jm().format(date), style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold, color: Color.fromRGBO(148, 119, 255, 1.0),),),
+                    child: Text(
+                      DateFormat.jm().format(date),
+                      style: TextStyle(
+                        fontSize: 17.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(height: 30.0),
@@ -70,8 +76,10 @@ class _AddScheduleScreenState extends State<AddScheduleScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       FlatButton(
-                        child: Text('Add', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
-                        textColor: Color.fromRGBO(148, 119, 255, 1.0),
+                        child: Text('Add',
+                            style: TextStyle(
+                                fontSize: 20.0, fontWeight: FontWeight.bold)),
+                        textColor: Colors.black,
                         onPressed: () {
                           args['data'].date = this.date;
                           Navigator.pop(context, args['data']);
@@ -80,11 +88,13 @@ class _AddScheduleScreenState extends State<AddScheduleScreen> {
                       Container(
                         width: 1.0,
                         height: 30.0,
-                        color: Color.fromRGBO(148, 119, 255, 1.0),
+                        color: Colors.black,
                       ), //This is Vertical Divider
                       FlatButton(
-                        child: Text('Cancel', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
-                        textColor: Color.fromRGBO(148, 119, 255, 1.0),
+                        child: Text('Cancel',
+                            style: TextStyle(
+                                fontSize: 20.0, fontWeight: FontWeight.bold)),
+                        textColor: Colors.black,
                         onPressed: () {
                           Navigator.pop(context, null);
                         },

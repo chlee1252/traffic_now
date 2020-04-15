@@ -55,7 +55,7 @@ class _PlaceInputScreenState extends State<PlaceInputScreen> {
         FocusScope.of(context).unfocus();
       },
       child: new Scaffold(
-        backgroundColor: Color.fromRGBO(148, 119, 255, 1.0),
+        backgroundColor: Color.fromRGBO(219, 235, 196, 1.0),
         appBar: AppBar(
           elevation: 0.0,
           title: FittedBox(
@@ -63,7 +63,7 @@ class _PlaceInputScreenState extends State<PlaceInputScreen> {
             child: Text(
               "Set Place",
               style: TextStyle(
-                fontSize: 30.0,
+                fontSize: 25.0,
               ),
             ),
           ),
@@ -87,8 +87,8 @@ class _PlaceInputScreenState extends State<PlaceInputScreen> {
                       child: Text(
                         "I need your address to notify you!",
                         style: TextStyle(
-                            color: Color.fromRGBO(148, 119, 255, 1.0),
-                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+//                            fontWeight: FontWeight.bold,
                             fontSize: 20.0),
                       ),
                     ),
@@ -119,7 +119,7 @@ class _PlaceInputScreenState extends State<PlaceInputScreen> {
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 width: 2.0,
-                                color: Color.fromRGBO(148, 119, 255, 1.0)),
+                                color: Colors.black54),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
@@ -129,7 +129,7 @@ class _PlaceInputScreenState extends State<PlaceInputScreen> {
                           labelText: "Start Place",
                           labelStyle: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: Color.fromRGBO(148, 119, 255, 1.0))),
+                              color: Colors.black54)),
                     ),
                   ),
                   Padding(
@@ -159,16 +159,16 @@ class _PlaceInputScreenState extends State<PlaceInputScreen> {
                         enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 width: 2.0,
-                                color: Color.fromRGBO(148, 119, 255, 1.0))),
+                                color: Colors.black54)),
                         labelText: "Destination",
                         labelStyle: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: Color.fromRGBO(160, 119, 255, 1.0),
+                          color: Colors.black54,
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                               width: 2.5,
-                              color: Color.fromRGBO(148, 119, 255, 1.0)),
+                              color: Colors.black54),
                         ),
                       ),
                     ),
@@ -181,7 +181,7 @@ class _PlaceInputScreenState extends State<PlaceInputScreen> {
                         "Next",
                         style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                       ),
-                      textColor: Color.fromRGBO(148, 119, 255, 1.0),
+                      textColor: Colors.black,
                       onPressed: () async {
                         FocusScope.of(context).unfocus();
                         if (this._data.startPoint == null ||

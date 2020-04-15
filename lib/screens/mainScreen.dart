@@ -112,7 +112,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(148, 119, 255, 1.0),
+      backgroundColor: Color.fromRGBO(219, 235, 196, 1.0),
       appBar: AppBar(
         centerTitle: false,
         elevation: 0.0,
@@ -120,14 +120,14 @@ class _MainScreenState extends State<MainScreen> {
           fit: BoxFit.fitWidth,
           child: Text(
             'TrafficNow',
-            style: TextStyle(fontSize: 33.0, color: Colors.white),
+            style: TextStyle(fontSize: 33.0),
           ),
         ),
         actions: <Widget>[
           IconButton(
             icon: Icon(
               Icons.add,
-              color: Colors.white,
+//              color: Colors.white,
               size: 30.0,
             ),
             onPressed: () async {
@@ -152,7 +152,11 @@ class _MainScreenState extends State<MainScreen> {
           : AnimatedList(
               key: _listKey,
               initialItemCount: testList.scheduleList.length,
-              itemBuilder: (context, index, animation) {
+              itemBuilder: (
+                context,
+                index,
+                animation
+              ) {
                 return _buildItem(
                     testList.scheduleList[index], index, animation);
               },
