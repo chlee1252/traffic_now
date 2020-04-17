@@ -13,10 +13,10 @@ import 'package:trafficnow/storage/storage.dart';
 //TODO: direction icon on leading - route to Google Map
 
 class MainScreen extends StatefulWidget {
-  MainScreen({Key key, this.title}) : super(key: key);
+  MainScreen({Key key}) : super(key: key);
 
   static final String id = "MainScreen";
-  final String title;
+//  final String title;
 
   @override
   _MainScreenState createState() => _MainScreenState();
