@@ -1,4 +1,3 @@
-import 'package:intl/intl.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:trafficnow/module/scheduleList.dart';
 import 'package:trafficnow/module/userPlace.dart';

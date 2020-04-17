@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:trafficnow/screens/addScheduleScreen.dart';
 import 'package:trafficnow/screens/mainScreen.dart';
 import 'package:trafficnow/screens/placeInputScreen.dart';
+import 'package:trafficnow/screens/splashScreen.dart';
 
 
 
@@ -18,9 +19,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Color.fromRGBO(219, 235, 196, 1.0),
       ),
-      home: MainScreen(title: 'TrafficNow'),
-      initialRoute: MainScreen.id,
+      home: SplashScreen(),
+      initialRoute: SplashScreen.id,
       routes: {
+        SplashScreen.id : (context) => SplashScreen(),
         MainScreen.id: (context) => MainScreen(),
         AddScheduleScreen.id: (context) => AddScheduleScreen(),
         PlaceInputScreen.id: (context) => PlaceInputScreen(),
