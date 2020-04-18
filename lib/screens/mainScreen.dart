@@ -16,7 +16,6 @@ class MainScreen extends StatefulWidget {
   MainScreen({Key key}) : super(key: key);
 
   static final String id = "MainScreen";
-//  final String title;
 
   @override
   _MainScreenState createState() => _MainScreenState();
