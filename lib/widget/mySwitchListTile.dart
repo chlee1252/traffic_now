@@ -7,7 +7,7 @@ import 'package:trafficnow/widget/myDialog.dart';
 import 'package:trafficnow/module/userPlace.dart';
 import 'package:trafficnow/storage/storage.dart';
 import 'package:trafficnow/module/scheduleList.dart';
-//import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MySwitchListTile extends StatefulWidget {
   MySwitchListTile({this.data, this.index, this.storage, this.list});
@@ -22,16 +22,16 @@ class MySwitchListTile extends StatefulWidget {
 }
 
 class _MySwitchListTileState extends State<MySwitchListTile> {
-//  _launchURL(start, dest) async {
-//    final url =
-//        'https://www.google.com/maps/dir/?api=$myKey&origin=${start}&destination=$dest';
-//    print(url);
-//    if (await canLaunch(url)) {
-//      await launch(url);
-//    } else {
-//      throw "Could not launch $url";
-//    }
-//  }
+  _launchURL(start, dest) async {
+    final url =
+        'https://www.google.com/maps/dir/?api=1&origin=$start&origin_place_id=${widget.data.startID}&destination=$dest&destination_place_id=${widget.data.destID}';
+    print(url);
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw "Could not launch $url";
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,14 +43,13 @@ class _MySwitchListTileState extends State<MySwitchListTile> {
           size: 35.0,
         ),
         onPressed: () {
-          //TODO: Google Map
-//          try {
-//            var start = widget.start.replaceAll(' ', '+').replaceAll(',', '');
-//            var end = widget.end.replaceAll(' ', '+').replaceAll(',', '');
-//            _launchURL(start, end);
-//          } catch (e) {
-//            print(e);
-//          }
+          try {
+            var start = widget.data.startPoint.replaceAll(' ', '+').replaceAll(',', '');
+            var end = widget.data.dest.replaceAll(' ', '+').replaceAll(',', '');
+            _launchURL(start, end);
+          } catch (e) {
+            print(e);
+          }
         },
       ),
       onChanged: (value) {
@@ -66,6 +65,7 @@ class _MySwitchListTileState extends State<MySwitchListTile> {
               context: context,
               title: "Turned On!",
               content: "Your ${widget.data.startPoint} is on!");
+          print('${widget.data.startID}, ${widget.data.destID}');
         }
       },
       activeColor: Color.fromRGBO(219, 235, 196, 1.0),

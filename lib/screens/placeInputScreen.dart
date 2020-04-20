@@ -88,7 +88,6 @@ class _PlaceInputScreenState extends State<PlaceInputScreen> {
                         "I need your address to notify you!",
                         style: TextStyle(
                             color: Colors.black,
-//                            fontWeight: FontWeight.bold,
                             fontSize: 20.0),
                       ),
                     ),
@@ -106,7 +105,7 @@ class _PlaceInputScreenState extends State<PlaceInputScreen> {
                           setState(() {
                             FocusScope.of(context).requestFocus(new FocusNode());
                             this._data.startPoint = value?.description;
-                            this._data.startID = value?.id;
+                            this._data.startID = value?.placeId;
                           });
                         }
                       },
@@ -145,7 +144,7 @@ class _PlaceInputScreenState extends State<PlaceInputScreen> {
                           _destController.text = value.description;
                           setState(() {
                             this._data.dest = value?.description;
-                            this._data.destID = value?.id;
+                            this._data.destID = value?.placeId;
                           });
                         }
                         FocusScope.of(context).requestFocus(new FocusNode());
