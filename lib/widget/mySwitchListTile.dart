@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
-//import 'package:trafficnow/API/credential.dart';
 import 'package:trafficnow/widget/cupertinoSwitchListTile.dart';
 import 'package:trafficnow/widget/myDialog.dart';
 import 'package:trafficnow/module/userPlace.dart';
@@ -60,7 +59,6 @@ class _MySwitchListTileState extends State<MySwitchListTile> {
         widget.storage.setItem(widget.list);
         if (widget.data.turnON) {
           //TODO: Do Something when Switch is on
-          //Below Dialog is only for test cases.
           closeButtonDialog(
               context: context,
               title: "Turned On!",
