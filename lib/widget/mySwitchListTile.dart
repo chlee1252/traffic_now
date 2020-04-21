@@ -63,7 +63,6 @@ class _MySwitchListTileState extends State<MySwitchListTile> {
               context: context,
               title: "Turned On!",
               content: "Your ${widget.data.startPoint} is on!");
-          print('${widget.data.startID}, ${widget.data.destID}');
         }
       },
       activeColor: Color.fromRGBO(219, 235, 196, 1.0),
