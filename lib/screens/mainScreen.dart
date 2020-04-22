@@ -8,8 +8,7 @@ import 'package:trafficnow/module/scheduleList.dart';
 import 'package:trafficnow/storage/storage.dart';
 import 'package:trafficnow/notification/notification.dart';
 
-//TODO: Push Notification
-//TODO: Background Execution
+//TODO: Background Execution (background_fetch 0.5.5)
 //TODO: Setup GoogleMAP API (Places, direction)
 // ["routes"][0]["legs"][0]["duration_in_traffic"]['text']
 // https://maps.googleapis.com/maps/api/directions/json?departure_time=now&origin=place_id:{}&destination=place_id:{}&key=myKey
