@@ -8,6 +8,9 @@ import 'package:trafficnow/module/scheduleList.dart';
 import 'package:trafficnow/storage/storage.dart';
 import 'package:trafficnow/notification/notification.dart';
 
+//TODO: Change UI/UX, put Google Map
+//TODO: Get Current Location
+//TODO: Put Marker in Google Map
 //TODO: Background Execution (background_fetch 0.5.5)
 //TODO: Setup GoogleMAP API (Places, direction)
 // ["routes"][0]["legs"][0]["duration_in_traffic"]['text']
