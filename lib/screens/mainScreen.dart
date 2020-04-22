@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:trafficnow/screens/placeInputScreen.dart';
 import 'package:trafficnow/widget/mySwitchListTile.dart';
 import 'package:trafficnow/module/userPlace.dart';
 import 'package:trafficnow/module/scheduleList.dart';
 import 'package:trafficnow/storage/storage.dart';
+import 'package:trafficnow/notification/notification.dart';
 
 //TODO: Push Notification
 //TODO: Background Execution
@@ -27,6 +29,7 @@ class _MainScreenState extends State<MainScreen> {
   DateTime date;
   String start, dest;
   Storage storage = new Storage();
+  FlutterLocalNotificationsPlugin plugin;
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
 
   @override
@@ -37,6 +40,9 @@ class _MainScreenState extends State<MainScreen> {
         data ? testList = storage.getItems() : testList = new ScheduleList();
       });
     });
+    plugin = FlutterLocalNotificationsPlugin();
+    requestIOS(plugin);
+    initializeNotifications(plugin);
   }
 
   void _addItem(UserPlace value) {
@@ -74,6 +80,8 @@ class _MainScreenState extends State<MainScreen> {
             height: 120.0,
             child: Center(
               child: MySwitchListTile(
+                plugin: plugin,
+                myKey: index,
                 data: _item,
                 index: index,
                 storage: this.storage,
@@ -103,6 +111,7 @@ class _MainScreenState extends State<MainScreen> {
       onDismissed: (direction) {
         setState(() {
           _removeItem(index);
+          plugin.cancel(index);
         });
       },
     );

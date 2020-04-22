@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
+import 'package:trafficnow/notification/notification.dart';
 import 'package:trafficnow/widget/cupertinoSwitchListTile.dart';
 import 'package:trafficnow/widget/myDialog.dart';
 import 'package:trafficnow/module/userPlace.dart';
@@ -9,8 +11,10 @@ import 'package:trafficnow/module/scheduleList.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MySwitchListTile extends StatefulWidget {
-  MySwitchListTile({this.data, this.index, this.storage, this.list});
+  MySwitchListTile({this.plugin, this.myKey, this.data, this.index, this.storage, this.list});
 
+  final FlutterLocalNotificationsPlugin plugin;
+  final int myKey;
   final UserPlace data;
   final int index;
   final Storage storage;
@@ -58,11 +62,14 @@ class _MySwitchListTileState extends State<MySwitchListTile> {
         widget.list.scheduleList[widget.index] = widget.data;
         widget.storage.setItem(widget.list);
         if (widget.data.turnON) {
+          scheduleNotification(widget.plugin, widget.data, widget.myKey);
           //TODO: Do Something when Switch is on
           closeButtonDialog(
               context: context,
               title: "Turned On!",
               content: "Your ${widget.data.startPoint} is on!");
+        } else {
+          widget.plugin.cancel(widget.myKey);
         }
       },
       activeColor: Color.fromRGBO(219, 235, 196, 1.0),
