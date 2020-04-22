@@ -35,7 +35,8 @@ dependencies:
   auto_size_text: ^2.1.0
   flutter_local_notifications: ^1.4.1
   animated_text_kit: ^2.0.0
-
+#  background_fetch: ^0.5.5
+ß
 
 dev_dependencies:
   flutter_test:
