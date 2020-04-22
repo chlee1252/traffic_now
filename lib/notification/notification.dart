@@ -24,9 +24,6 @@ Future<void> scheduleNotification(
   var hour = userPlace.date.hour;
   var minute = userPlace.date.minute;
 
-  print(hour);
-  print(minute);
-
   var iOSPlatformChannelSpecifics = IOSNotificationDetails();
   var platformChannelSpecifics =
       NotificationDetails(null, iOSPlatformChannelSpecifics);
