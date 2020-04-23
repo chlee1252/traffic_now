@@ -14,28 +14,30 @@ class _NewMainScreenState extends State<NewMainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: Placeholder(),
-          ),
-          Expanded(
-            child: IndexedStack(
-              children: [
-                Card(
-                  elevation: 3.0,
-                  color: Colors.grey,
-                  shadowColor: Colors.black,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  child:
-                  Container(),
-                ),
-              ],
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: Placeholder(),
             ),
-          ),
-        ],
+            Expanded(
+              child: IndexedStack(
+                children: [
+                  Card(
+                    elevation: 3.0,
+                    color: Colors.grey,
+                    shadowColor: Colors.black,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    child:
+                    Container(),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
       bottomNavigationBar: BottomNavyBar(
         selectedIndex: _currentIndex,
