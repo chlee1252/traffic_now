@@ -6,6 +6,7 @@ import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:trafficnow/module/userPlace.dart';
 import 'package:trafficnow/screens/placeInputScreen.dart';
 import 'package:trafficnow/widget/alarmTile.dart';
+import 'package:trafficnow/widget/infoCard.dart';
 
 class NewMainScreen extends StatefulWidget {
   static final String id = "NewMainScreen";
@@ -49,14 +50,7 @@ class _NewMainScreenState extends State<NewMainScreen> {
               child: IndexedStack(
                 index: _currentIndex,
                 children: [
-                  Card(
-                    elevation: 3.0,
-                    color: Colors.white,
-                    shadowColor: Colors.black,
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(color: Colors.grey, width: 2),
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
+                  InfoCard(
                     child: _userPlace == null
                         ? Center(
                             child: Padding(
@@ -100,14 +94,7 @@ class _NewMainScreenState extends State<NewMainScreen> {
                             ],
                           ),
                   ),
-                  Card(
-                    elevation: 3.0,
-                    color: Colors.white,
-                    shadowColor: Colors.black,
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(color: Colors.grey, width: 2.0),
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
+                  InfoCard(
                     child: _userPlace == null
                         ? Center(
                             child: Padding(
@@ -131,14 +118,7 @@ class _NewMainScreenState extends State<NewMainScreen> {
                             },
                           ),
                   ),
-                  Card(
-                    elevation: 3.0,
-                    color: Colors.white,
-                    shadowColor: Colors.black,
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(color: Colors.grey, width: 2.0),
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
+                  InfoCard(
                     child: Container(),
                   ),
                 ],
