@@ -1,12 +1,11 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:intl/intl.dart';
-import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:trafficnow/module/userPlace.dart';
 import 'package:trafficnow/screens/placeInputScreen.dart';
 import 'package:trafficnow/widget/alarmTile.dart';
+import 'package:trafficnow/widget/destTile.dart';
+import 'package:trafficnow/widget/emptyTile.dart';
 import 'package:trafficnow/widget/infoCard.dart';
+import 'package:trafficnow/widget/myBottomNav.dart';
 
 class NewMainScreen extends StatefulWidget {
   static final String id = "NewMainScreen";
@@ -18,7 +17,6 @@ class NewMainScreen extends StatefulWidget {
 class _NewMainScreenState extends State<NewMainScreen> {
   UserPlace _userPlace;
   int _currentIndex = 0;
-  bool _value = false;
 
   @override
   Widget build(BuildContext context) {
@@ -52,62 +50,14 @@ class _NewMainScreenState extends State<NewMainScreen> {
                 children: [
                   InfoCard(
                     child: _userPlace == null
-                        ? Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(40.0),
-                              child: AutoSizeText(
-                                "Please add Destination :)",
-                                style: TextStyle(
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.bold),
-                                maxLines: 1,
-                              ),
-                            ),
-                          )
-                        : Row(
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.15,
-                                child: Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 8.0),
-                                    child: Icon(
-                                      Icons.location_on,
-                                      size: 35.0,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right: 10.0),
-                                  child: AutoSizeText(
-                                    _userPlace.dest,
-                                    style: TextStyle(
-                                        fontSize: 20.0,
-                                        fontWeight: FontWeight.bold),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ),
-                            ],
+                        ? EmptyTile()
+                        : DestTile(
+                            dest: _userPlace.dest,
                           ),
                   ),
                   InfoCard(
                     child: _userPlace == null
-                        ? Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(40.0),
-                              child: AutoSizeText(
-                                "Please add Schedule :)",
-                                style: TextStyle(
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.bold),
-                                maxLines: 1,
-                              ),
-                            ),
-                          )
+                        ? EmptyTile()
                         : AlarmTile(
                             value: _userPlace.turnON,
                             date: _userPlace.date,
@@ -127,37 +77,13 @@ class _NewMainScreenState extends State<NewMainScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: BubbleBottomBar(
-        hasNotch: true,
-        fabLocation: BubbleBottomBarFabLocation.end,
-        opacity: .2,
+      bottomNavigationBar: MyBottomNav(
         currentIndex: _currentIndex,
-        elevation: 8,
         onTap: (index) {
           setState(() {
             _currentIndex = index;
           });
         },
-        items: <BubbleBottomBarItem>[
-          BubbleBottomBarItem(
-            backgroundColor: Colors.lightGreen,
-            icon: Icon(Icons.location_on, color: Colors.lightGreen),
-            activeIcon: Icon(Icons.location_on, color: Colors.lightGreen),
-            title: Text('Destination'),
-          ),
-          BubbleBottomBarItem(
-            backgroundColor: Colors.lightGreen,
-            icon: Icon(Icons.access_alarm, color: Colors.lightGreen),
-            activeIcon: Icon(Icons.access_alarm, color: Colors.lightGreen),
-            title: Text('Time'),
-          ),
-          BubbleBottomBarItem(
-            backgroundColor: Colors.lightGreen,
-            icon: Icon(Icons.message, color: Colors.lightGreen),
-            activeIcon: Icon(Icons.message, color: Colors.lightGreen),
-            title: Text('Estimated'),
-          ),
-        ],
       ),
     );
   }
