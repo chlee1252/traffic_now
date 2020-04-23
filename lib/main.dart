@@ -3,6 +3,7 @@ import 'package:trafficnow/screens/addScheduleScreen.dart';
 import 'package:trafficnow/screens/mainScreen.dart';
 import 'package:trafficnow/screens/placeInputScreen.dart';
 import 'package:trafficnow/screens/splashScreen.dart';
+import 'package:trafficnow/screens/newMainScreen.dart';
 
 
 
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         MainScreen.id: (context) => MainScreen(),
         AddScheduleScreen.id: (context) => AddScheduleScreen(),
         PlaceInputScreen.id: (context) => PlaceInputScreen(),
+        NewMainScreen.id: (context) => NewMainScreen(),
       },
     );
   }

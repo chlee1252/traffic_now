@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:trafficnow/screens/mainScreen.dart';
+import 'package:trafficnow/screens/newMainScreen.dart';
 
 class SplashScreen extends StatefulWidget {
   static final String id = "SplashScreen";
@@ -16,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(Duration(seconds: 3),
-        () => Navigator.pushReplacementNamed(context, MainScreen.id));
+        () => Navigator.pushReplacementNamed(context, NewMainScreen.id));
   }
 
   @override
