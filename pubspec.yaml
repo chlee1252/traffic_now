@@ -35,7 +35,8 @@ dependencies:
   auto_size_text: ^2.1.0
   flutter_local_notifications: ^1.4.1
   animated_text_kit: ^2.0.0
-  bottom_navy_bar: ^5.4.0
+  bubble_bottom_bar: ^1.2.0
+#  bottom_navy_bar: ^5.4.0
 #  background_fetch: ^0.5.5
 
 

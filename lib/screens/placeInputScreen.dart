@@ -55,7 +55,7 @@ class _PlaceInputScreenState extends State<PlaceInputScreen> {
         FocusScope.of(context).unfocus();
       },
       child: new Scaffold(
-        backgroundColor: Color.fromRGBO(219, 235, 196, 1.0),
+        backgroundColor: Colors.white,
         appBar: AppBar(
           elevation: 0.0,
           title: FittedBox(
@@ -72,7 +72,8 @@ class _PlaceInputScreenState extends State<PlaceInputScreen> {
           child: Padding(
             padding: const EdgeInsets.all(15.0),
             child: Card(
-              elevation: 3.0,
+              color: Color.fromRGBO(219, 235, 196, 1.0),
+              elevation: 8.0,
               shadowColor: Colors.black,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.0),

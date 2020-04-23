@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'TrafficNow',
       theme: ThemeData(
-        primaryColor: Color.fromRGBO(219, 235, 196, 1.0),
+        primaryColor: Colors.white,
       ),
       home: SplashScreen(),
       initialRoute: SplashScreen.id,
