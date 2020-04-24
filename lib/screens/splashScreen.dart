@@ -25,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
     await location.getLocation();
 
     Timer(
-        Duration(seconds: 3),
+        Duration(seconds: 4),
         () => Navigator.pushReplacementNamed(context, NewMainScreen.id,
             arguments: {'userLocation': location}));
   }

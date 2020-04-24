@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:trafficnow/module/userPlace.dart';
 import 'package:trafficnow/screens/placeInputScreen.dart';
 import 'package:trafficnow/service/estimateTime.dart';
@@ -28,6 +29,11 @@ class _NewMainScreenState extends State<NewMainScreen> {
   @override
   Widget build(BuildContext context) {
     final Map args = ModalRoute.of(context).settings.arguments as Map;
+    final CameraPosition _user = CameraPosition(
+        target: LatLng(args['userLocation'].lat, args['userLocation'].long),
+        zoom: 300.0,
+    );
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add_alarm),
@@ -48,7 +54,10 @@ class _NewMainScreenState extends State<NewMainScreen> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                child: Placeholder(),
+                child: GoogleMap(
+                  mapType: MapType.normal,
+                  initialCameraPosition: _user,
+                ),
               ),
             ),
             Container(
@@ -95,8 +104,8 @@ class _NewMainScreenState extends State<NewMainScreen> {
           setState(() {
             _currentIndex = index;
           });
-          print(args['userLocation'].lat);
-          print(args['userLocation'].long);
+//          print(args['userLocation'].lat);
+//          print(args['userLocation'].long);
           if (index == 2 && _userPlace != null) {
             try {
               final UserPlace result =
