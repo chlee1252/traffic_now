@@ -4,6 +4,7 @@ class UserPlace {
   String dest;
   String startID;
   String destID;
+  String estTime;
   bool turnON;
 
   UserPlace({DateTime date, String startPoint, String dest, String startID, String destID, bool turnON=false}) {

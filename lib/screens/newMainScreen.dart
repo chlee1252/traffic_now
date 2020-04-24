@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:trafficnow/module/userPlace.dart';
 import 'package:trafficnow/screens/placeInputScreen.dart';
+import 'package:trafficnow/service/estimateTime.dart';
 import 'package:trafficnow/widget/alarmTile.dart';
 import 'package:trafficnow/widget/destTile.dart';
 import 'package:trafficnow/widget/emptyTile.dart';
 import 'package:trafficnow/widget/infoCard.dart';
 import 'package:trafficnow/widget/myBottomNav.dart';
+
+//TODO: Embed GoogleMap
+//TODO: localStorage refactor
+//TODO: Result Card
+//TODO: background Fetch
 
 class NewMainScreen extends StatefulWidget {
   static final String id = "NewMainScreen";
@@ -79,7 +85,18 @@ class _NewMainScreenState extends State<NewMainScreen> {
       ),
       bottomNavigationBar: MyBottomNav(
         currentIndex: _currentIndex,
-        onTap: (index) {
+        onTap: (index) async {
+          if (index == 2 && _userPlace != null) {
+            try {
+              final UserPlace result =
+                  await EstimateTime(userData: this._userPlace)
+                  .getEstimate();
+
+              print(result.estTime);
+            } catch(e) {
+              print(e);
+            }
+          }
           setState(() {
             _currentIndex = index;
           });
