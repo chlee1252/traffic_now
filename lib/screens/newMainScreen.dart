@@ -5,6 +5,7 @@ import 'package:trafficnow/service/estimateTime.dart';
 import 'package:trafficnow/widget/alarmTile.dart';
 import 'package:trafficnow/widget/destTile.dart';
 import 'package:trafficnow/widget/emptyTile.dart';
+import 'package:trafficnow/widget/estTile.dart';
 import 'package:trafficnow/widget/infoCard.dart';
 import 'package:trafficnow/widget/myBottomNav.dart';
 
@@ -75,7 +76,11 @@ class _NewMainScreenState extends State<NewMainScreen> {
                           ),
                   ),
                   InfoCard(
-                    child: Container(),
+                    child: this._userPlace == null
+                        ? EmptyTile()
+                        : EstTile(
+                            userPlace: this._userPlace,
+                          ),
                   ),
                 ],
               ),
@@ -92,13 +97,12 @@ class _NewMainScreenState extends State<NewMainScreen> {
           if (index == 2 && _userPlace != null) {
             try {
               final UserPlace result =
-                  await EstimateTime(userData: this._userPlace)
-                  .getEstimate();
+                  await EstimateTime(userData: this._userPlace).getEstimate();
 
               setState(() {
                 this._userPlace = result;
               });
-            } catch(e) {
+            } catch (e) {
               print(e);
             }
           }
