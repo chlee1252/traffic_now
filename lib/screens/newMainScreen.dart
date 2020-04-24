@@ -10,12 +10,12 @@ import 'package:trafficnow/widget/estTile.dart';
 import 'package:trafficnow/widget/infoCard.dart';
 import 'package:trafficnow/widget/myBottomNav.dart';
 
-//TODO: Embed GoogleMap
+//TODO: Google Map get lat long of destination
+//TODO: Google Map draw direction
 //TODO: localStorage refactor
 //TODO: background Fetch
 
 class NewMainScreen extends StatefulWidget {
-
   static final String id = "NewMainScreen";
 
   @override
@@ -25,14 +25,26 @@ class NewMainScreen extends StatefulWidget {
 class _NewMainScreenState extends State<NewMainScreen> {
   UserPlace _userPlace;
   int _currentIndex = 0;
+  Set<Marker> _markers = {};
 
   @override
   Widget build(BuildContext context) {
     final Map args = ModalRoute.of(context).settings.arguments as Map;
+    LatLng position = LatLng(args['userLocation'].lat, args['userLocation'].long);
     final CameraPosition _user = CameraPosition(
-        target: LatLng(args['userLocation'].lat, args['userLocation'].long),
-        zoom: 300.0,
+      target: position,
+      zoom: 13,
+      tilt: 0,
+      bearing: 30,
     );
+    setState(() {
+      _markers.add(Marker(
+          markerId: MarkerId(position.toString()),
+          position: position,
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure)
+      ));
+    });
+
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -40,9 +52,15 @@ class _NewMainScreenState extends State<NewMainScreen> {
         onPressed: () async {
           final result =
               await Navigator.pushNamed(context, PlaceInputScreen.id);
-          setState(() {
-            _userPlace = result;
-          });
+          if (result != null) {
+            setState(() {
+              _userPlace = result;
+//              _markers.add(Marker(
+//                markerId:
+//
+//              ));
+            });
+          }
         },
         backgroundColor: Color.fromRGBO(219, 235, 196, 1.0),
         foregroundColor: Colors.black,
@@ -57,6 +75,7 @@ class _NewMainScreenState extends State<NewMainScreen> {
                 child: GoogleMap(
                   mapType: MapType.normal,
                   initialCameraPosition: _user,
+                  markers: _markers,
                 ),
               ),
             ),
@@ -86,7 +105,7 @@ class _NewMainScreenState extends State<NewMainScreen> {
                           ),
                   ),
                   InfoCard(
-                    child: this._userPlace == null
+                    child: this._userPlace?.estTime == null
                         ? EmptyTile()
                         : EstTile(
                             userPlace: this._userPlace,
