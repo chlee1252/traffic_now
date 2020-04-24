@@ -11,7 +11,6 @@ import 'package:trafficnow/widget/myBottomNav.dart';
 
 //TODO: Embed GoogleMap
 //TODO: localStorage refactor
-//TODO: Result Card
 //TODO: background Fetch
 
 class NewMainScreen extends StatefulWidget {
