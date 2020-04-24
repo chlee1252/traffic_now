@@ -86,20 +86,22 @@ class _NewMainScreenState extends State<NewMainScreen> {
       bottomNavigationBar: MyBottomNav(
         currentIndex: _currentIndex,
         onTap: (index) async {
+          setState(() {
+            _currentIndex = index;
+          });
           if (index == 2 && _userPlace != null) {
             try {
               final UserPlace result =
                   await EstimateTime(userData: this._userPlace)
                   .getEstimate();
 
-              print(result.estTime);
+              setState(() {
+                this._userPlace = result;
+              });
             } catch(e) {
               print(e);
             }
           }
-          setState(() {
-            _currentIndex = index;
-          });
         },
       ),
     );

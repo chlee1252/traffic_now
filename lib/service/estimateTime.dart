@@ -10,7 +10,6 @@ class EstimateTime {
   Future<UserPlace> getEstimate() async {
     final String url =
         "https://maps.googleapis.com/maps/api/directions/json?departure_time=now&origin=place_id:${this.userData.startID}&destination=place_id:${this.userData.destID}&key=$myKey";
-    print(url);
     var response = await http.get(url, headers: {
       "Accept": "application/json",
     });
