@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:trafficnow/screens/mainScreen.dart';
 import 'package:trafficnow/screens/newMainScreen.dart';
+import 'package:trafficnow/service/location.dart';
 
 class SplashScreen extends StatefulWidget {
   static final String id = "SplashScreen";
@@ -16,8 +17,17 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 3),
-        () => Navigator.pushReplacementNamed(context, NewMainScreen.id));
+    _getUserLocation();
+  }
+
+  _getUserLocation() async {
+    Location location = Location();
+    await location.getLocation();
+
+    Timer(
+        Duration(seconds: 3),
+        () => Navigator.pushReplacementNamed(context, NewMainScreen.id,
+            arguments: {'userLocation': location}));
   }
 
   @override

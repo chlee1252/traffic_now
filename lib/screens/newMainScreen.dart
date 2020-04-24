@@ -14,6 +14,7 @@ import 'package:trafficnow/widget/myBottomNav.dart';
 //TODO: background Fetch
 
 class NewMainScreen extends StatefulWidget {
+
   static final String id = "NewMainScreen";
 
   @override
@@ -26,6 +27,7 @@ class _NewMainScreenState extends State<NewMainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final Map args = ModalRoute.of(context).settings.arguments as Map;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add_alarm),
@@ -93,6 +95,8 @@ class _NewMainScreenState extends State<NewMainScreen> {
           setState(() {
             _currentIndex = index;
           });
+          print(args['userLocation'].lat);
+          print(args['userLocation'].long);
           if (index == 2 && _userPlace != null) {
             try {
               final UserPlace result =
