@@ -37,7 +37,7 @@ class _EstTileState extends State<EstTile> {
                 Expanded(
                   child: Center(
                     child: AutoSizeText(
-                      "Estimate Arrival Time: ${DateFormat.jm().format(this.now)}",
+                      "ETA (Updated: ${DateFormat.jm().format(this.now)})",
                       style: TextStyle(
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,
