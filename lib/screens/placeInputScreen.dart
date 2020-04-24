@@ -86,55 +86,55 @@ class _PlaceInputScreenState extends State<PlaceInputScreen> {
                     child: FittedBox(
                       fit: BoxFit.fitWidth,
                       child: Text(
-                        "I need your address to notify you!",
+                        "Please select your destination",
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 20.0),
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: TextField(
-                      focusNode: _startFocusNode,
-                      controller: _startController,
-                      onTap: () async {
-                        var value = await getPrediction();
-
-                        if (value != null) {
-                          _startController.text = value.description;
-                          setState(() {
-                            FocusScope.of(context).requestFocus(new FocusNode());
-                            this._data.startPoint = value?.description;
-                            this._data.startID = value?.placeId;
-                          });
-                        }
-                      },
-                      onChanged: (value) {
-                        setState(() {
-                          this._data.startPoint = value;
-                        });
-                      },
-                      decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                width: 2.0,
-                                color: Colors.black54),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                width: 2.5,
-                                color: Color.fromRGBO(148, 119, 255, 1.0)),
-                          ),
-                          labelText: "Start Place",
-                          labelStyle: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black54)),
-                    ),
-                  ),
+//                  Padding(
+//                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+//                    child: TextField(
+//                      focusNode: _startFocusNode,
+//                      controller: _startController,
+//                      onTap: () async {
+//                        var value = await getPrediction();
+//
+//                        if (value != null) {
+//                          _startController.text = value.description;
+//                          setState(() {
+//                            FocusScope.of(context).requestFocus(new FocusNode());
+//                            this._data.startPoint = value?.description;
+//                            this._data.startID = value?.placeId;
+//                          });
+//                        }
+//                      },
+//                      onChanged: (value) {
+//                        setState(() {
+//                          this._data.startPoint = value;
+//                        });
+//                      },
+//                      decoration: InputDecoration(
+//                          enabledBorder: OutlineInputBorder(
+//                            borderSide: BorderSide(
+//                                width: 2.0,
+//                                color: Colors.black54),
+//                          ),
+//                          focusedBorder: OutlineInputBorder(
+//                            borderSide: BorderSide(
+//                                width: 2.5,
+//                                color: Color.fromRGBO(148, 119, 255, 1.0)),
+//                          ),
+//                          labelText: "Start Place",
+//                          labelStyle: TextStyle(
+//                              fontWeight: FontWeight.bold,
+//                              color: Colors.black54)),
+//                    ),
+//                  ),
                   Padding(
                     padding:
-                        const EdgeInsets.only(top: 30.0, left: 8.0, right: 8.0),
+                        const EdgeInsets.symmetric(horizontal: 10.0),
                     child: TextField(
                       focusNode: _destFocusNode,
                       controller: _destController,
