@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:trafficnow/module/userPlace.dart';
 import 'package:trafficnow/screens/placeInputScreen.dart';
+import 'package:trafficnow/service/convertLatLong.dart';
 import 'package:trafficnow/service/estimateTime.dart';
 import 'package:trafficnow/widget/alarmTile.dart';
 import 'package:trafficnow/widget/destTile.dart';
@@ -10,7 +11,6 @@ import 'package:trafficnow/widget/estTile.dart';
 import 'package:trafficnow/widget/infoCard.dart';
 import 'package:trafficnow/widget/myBottomNav.dart';
 
-//TODO: Google Map get lat long of destination
 //TODO: Google Map draw direction
 //TODO: localStorage refactor
 //TODO: background Fetch
@@ -27,13 +27,25 @@ class _NewMainScreenState extends State<NewMainScreen> {
   int _currentIndex = 0;
   Set<Marker> _markers = {};
 
+  Future<LatLng> _getLatLng(UserPlace userPlace) async {
+    ConvertLatLong data = ConvertLatLong(data: userPlace);
+    LatLng result;
+    try {
+      result = await data.getLatLng();
+    } catch (e) {
+      result = null;
+    }
+
+    return result;
+  }
+
   @override
   Widget build(BuildContext context) {
     final Map args = ModalRoute.of(context).settings.arguments as Map;
     LatLng position = LatLng(args['userLocation'].lat, args['userLocation'].long);
     final CameraPosition _user = CameraPosition(
       target: position,
-      zoom: 13,
+      zoom: 20,
       tilt: 0,
       bearing: 30,
     );
@@ -55,10 +67,13 @@ class _NewMainScreenState extends State<NewMainScreen> {
           if (result != null) {
             setState(() {
               _userPlace = result;
-//              _markers.add(Marker(
-//                markerId:
-//
-//              ));
+              _getLatLng(_userPlace).then((data) {
+                _markers.add(Marker(
+                  markerId: MarkerId(data.toString()),
+                  position: data,
+                  icon: BitmapDescriptor.defaultMarker
+                ));
+              });
             });
           }
         },
