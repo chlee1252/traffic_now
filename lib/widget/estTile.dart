@@ -1,13 +1,16 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:trafficnow/module/userPlace.dart';
 import 'package:trafficnow/service/estimateTime.dart';
 
+// ignore: must_be_immutable
 class EstTile extends StatefulWidget {
-  EstTile({this.userPlace});
+  EstTile({this.userPlace, this.startGeo});
 
   UserPlace userPlace;
+  final LatLng startGeo;
   @override
   _EstTileState createState() => _EstTileState();
 }
@@ -69,6 +72,7 @@ class _EstTileState extends State<EstTile> {
                       onPressed: () async {
                         final UserPlace result = await EstimateTime(
                           userData: widget.userPlace,
+                          userGeo: widget.startGeo,
                         ).getEstimate();
                         setState(() {
                           this.now = DateTime.now();

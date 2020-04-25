@@ -42,7 +42,8 @@ class _NewMainScreenState extends State<NewMainScreen> {
   @override
   Widget build(BuildContext context) {
     final Map args = ModalRoute.of(context).settings.arguments as Map;
-    LatLng position = LatLng(args['userLocation'].lat, args['userLocation'].long);
+    LatLng position =
+        LatLng(args['userLocation'].lat, args['userLocation'].long);
     final CameraPosition _user = CameraPosition(
       target: position,
       zoom: 20,
@@ -53,10 +54,9 @@ class _NewMainScreenState extends State<NewMainScreen> {
       _markers.add(Marker(
           markerId: MarkerId(position.toString()),
           position: position,
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure)
-      ));
+          icon: BitmapDescriptor.defaultMarkerWithHue(
+              BitmapDescriptor.hueAzure)));
     });
-
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -69,10 +69,9 @@ class _NewMainScreenState extends State<NewMainScreen> {
               _userPlace = result;
               _getLatLng(_userPlace).then((data) {
                 _markers.add(Marker(
-                  markerId: MarkerId(data.toString()),
-                  position: data,
-                  icon: BitmapDescriptor.defaultMarker
-                ));
+                    markerId: MarkerId(data.toString()),
+                    position: data,
+                    icon: BitmapDescriptor.defaultMarker));
               });
             });
           }
@@ -124,6 +123,7 @@ class _NewMainScreenState extends State<NewMainScreen> {
                         ? EmptyTile()
                         : EstTile(
                             userPlace: this._userPlace,
+                            startGeo: position,
                           ),
                   ),
                 ],
@@ -142,8 +142,9 @@ class _NewMainScreenState extends State<NewMainScreen> {
 //          print(args['userLocation'].long);
           if (index == 2 && _userPlace != null) {
             try {
-              final UserPlace result =
-                  await EstimateTime(userData: this._userPlace).getEstimate();
+              final UserPlace result = await EstimateTime(
+                      userData: this._userPlace, userGeo: position)
+                  .getEstimate();
 
               setState(() {
                 this._userPlace = result;

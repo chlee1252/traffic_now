@@ -18,8 +18,6 @@ class ConvertLatLong {
       "Accept": "application/json",
     });
 
-    print(response.statusCode);
-
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       var lat = json['results'][0]['geometry']['location']['lat'];

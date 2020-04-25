@@ -28,6 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
         Duration(seconds: 4),
         () => Navigator.pushReplacementNamed(context, NewMainScreen.id,
             arguments: {'userLocation': location}));
+
   }
 
   @override
