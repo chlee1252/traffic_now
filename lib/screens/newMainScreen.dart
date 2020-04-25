@@ -12,7 +12,7 @@ import 'package:trafficnow/widget/estTile.dart';
 import 'package:trafficnow/widget/infoCard.dart';
 import 'package:trafficnow/widget/myBottomNav.dart';
 
-//TODO: Google Map draw direction
+//TODO: Google Map draw direction by road
 //TODO: localStorage refactor
 //TODO: background Fetch
 
@@ -93,6 +93,7 @@ class _NewMainScreenState extends State<NewMainScreen> {
                   visible: true,
                   points: latlng,
                   color: Colors.blue,
+                  width: 5,
                 ));
               });
             } else {
@@ -117,6 +118,8 @@ class _NewMainScreenState extends State<NewMainScreen> {
                   initialCameraPosition: _user,
                   markers: _markers,
                   polylines: _polylines,
+                  trafficEnabled: true,
+                  myLocationEnabled: true,
                 ),
               ),
             ),
