@@ -184,8 +184,7 @@ class _PlaceInputScreenState extends State<PlaceInputScreen> {
                       textColor: Colors.black,
                       onPressed: () async {
                         FocusScope.of(context).unfocus();
-                        if (this._data.startPoint == null ||
-                            this._data.dest == null) {
+                        if (this._data.dest == null) {
                           closeButtonDialog(
                               context: context,
                               title: "Input Error",
