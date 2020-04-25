@@ -46,9 +46,8 @@ class _NewMainScreenState extends State<NewMainScreen> {
         LatLng(args['userLocation'].lat, args['userLocation'].long);
     final CameraPosition _user = CameraPosition(
       target: position,
-      zoom: 20,
+      zoom: 14.0,
       tilt: 0,
-      bearing: 30,
     );
     setState(() {
       _markers.add(Marker(
@@ -65,15 +64,20 @@ class _NewMainScreenState extends State<NewMainScreen> {
           final result =
               await Navigator.pushNamed(context, PlaceInputScreen.id);
           if (result != null) {
-            setState(() {
-              _userPlace = result;
-              _getLatLng(_userPlace).then((data) {
+            var data = await _getLatLng(result);
+            if (data != null) {
+              setState(() {
+                _userPlace = result;
                 _markers.add(Marker(
                     markerId: MarkerId(data.toString()),
                     position: data,
                     icon: BitmapDescriptor.defaultMarker));
               });
-            });
+            } else {
+              setState(() {
+                _userPlace = result;
+              });
+            }
           }
         },
         backgroundColor: Color.fromRGBO(219, 235, 196, 1.0),
