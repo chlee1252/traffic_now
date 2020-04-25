@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:trafficnow/screens/mainScreen.dart';
 import 'package:trafficnow/screens/newMainScreen.dart';
 import 'package:trafficnow/service/location.dart';
@@ -25,10 +25,9 @@ class _SplashScreenState extends State<SplashScreen> {
     await location.getLocation();
 
     Timer(
-        Duration(seconds: 4),
+        Duration(seconds: 2),
         () => Navigator.pushReplacementNamed(context, NewMainScreen.id,
             arguments: {'userLocation': location}));
-
   }
 
   @override
@@ -36,13 +35,21 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       backgroundColor: Color.fromRGBO(219, 235, 196, 1.0),
       body: Center(
-        child: FadeAnimatedTextKit(
-          text: ["TrafficNow"],
-          textStyle: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 45.0,
-            letterSpacing: 2.5,
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "TrafficNow",
+              style: TextStyle(fontSize: 30.0, color: Colors.black),
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            SpinKitFadingFour(
+              color: Colors.black,
+              size: 40.0,
+            ),
+          ],
         ),
       ),
     );
