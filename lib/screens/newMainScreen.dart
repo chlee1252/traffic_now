@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:trafficnow/module/userPlace.dart';
+import 'package:trafficnow/service/location.dart';
 import 'package:trafficnow/screens/placeInputScreen.dart';
 import 'package:trafficnow/service/convertLatLong.dart';
 import 'package:trafficnow/service/estimateTime.dart';
@@ -17,6 +18,9 @@ import 'package:trafficnow/widget/myBottomNav.dart';
 
 class NewMainScreen extends StatefulWidget {
   static final String id = "NewMainScreen";
+  final Location userLocation;
+
+  NewMainScreen({this.userLocation});
 
   @override
   _NewMainScreenState createState() => _NewMainScreenState();
@@ -24,8 +28,25 @@ class NewMainScreen extends StatefulWidget {
 
 class _NewMainScreenState extends State<NewMainScreen> {
   UserPlace _userPlace;
+  LatLng position;
   int _currentIndex = 0;
   Set<Marker> _markers = {};
+  List<LatLng> latlng = List();
+  Set<Polyline> _polylines = {};
+
+  @override
+  void initState() {
+    super.initState();
+    position = LatLng(widget.userLocation.lat, widget.userLocation.long);
+    setState(() {
+      this.latlng.add(position);
+      _markers.add(Marker(
+          markerId: MarkerId("origin"),
+          position: position,
+          icon: BitmapDescriptor.defaultMarkerWithHue(
+              BitmapDescriptor.hueAzure)));
+    });
+  }
 
   Future<LatLng> _getLatLng(UserPlace userPlace) async {
     ConvertLatLong data = ConvertLatLong(data: userPlace);
@@ -41,21 +62,11 @@ class _NewMainScreenState extends State<NewMainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final Map args = ModalRoute.of(context).settings.arguments as Map;
-    LatLng position =
-        LatLng(args['userLocation'].lat, args['userLocation'].long);
     final CameraPosition _user = CameraPosition(
       target: position,
       zoom: 14.0,
       tilt: 0,
     );
-    setState(() {
-      _markers.add(Marker(
-          markerId: MarkerId(position.toString()),
-          position: position,
-          icon: BitmapDescriptor.defaultMarkerWithHue(
-              BitmapDescriptor.hueAzure)));
-    });
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -66,12 +77,23 @@ class _NewMainScreenState extends State<NewMainScreen> {
           if (result != null) {
             var data = await _getLatLng(result);
             if (data != null) {
+              if (_markers.length > 1) _markers.remove(_markers.last);
+              if (latlng.length > 1) latlng.removeLast();
+              if (_polylines.length > 0) _polylines.remove(_polylines.last);
+
               setState(() {
+                latlng.add(data);
                 _userPlace = result;
                 _markers.add(Marker(
                     markerId: MarkerId(data.toString()),
                     position: data,
                     icon: BitmapDescriptor.defaultMarker));
+                _polylines.add(Polyline(
+                  polylineId: PolylineId(position.toString()),
+                  visible: true,
+                  points: latlng,
+                  color: Colors.blue,
+                ));
               });
             } else {
               setState(() {
@@ -94,6 +116,7 @@ class _NewMainScreenState extends State<NewMainScreen> {
                   mapType: MapType.normal,
                   initialCameraPosition: _user,
                   markers: _markers,
+                  polylines: _polylines,
                 ),
               ),
             ),
