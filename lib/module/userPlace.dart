@@ -16,6 +16,10 @@ class UserPlace {
     this.turnON = turnON;
   }
 
+  formatURL() {
+    return this.dest.replaceAll(' ', '+').replaceAll(',', '');
+  }
+
   supportJSON() {
     Map<String, dynamic> map = new Map();
     map['date'] = this.date.toString();
