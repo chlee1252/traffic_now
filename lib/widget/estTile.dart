@@ -33,7 +33,6 @@ class _EstTileState extends State<EstTile> {
         : Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
-//            mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
