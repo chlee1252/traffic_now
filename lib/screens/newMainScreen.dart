@@ -12,7 +12,6 @@ import 'package:trafficnow/widget/estTile.dart';
 import 'package:trafficnow/widget/infoCard.dart';
 import 'package:trafficnow/widget/myBottomNav.dart';
 
-//TODO: Google Map draw direction by road
 //TODO: localStorage refactor
 //TODO: background Fetch
 
@@ -31,7 +30,6 @@ class _NewMainScreenState extends State<NewMainScreen> {
   LatLng position;
   int _currentIndex = 0;
   Set<Marker> _markers = {};
-  List<LatLng> latlng = List();
   Set<Polyline> _polylines = {};
 
   @override
@@ -39,7 +37,6 @@ class _NewMainScreenState extends State<NewMainScreen> {
     super.initState();
     position = LatLng(widget.userLocation.lat, widget.userLocation.long);
     setState(() {
-      this.latlng.add(position);
       _markers.add(Marker(
           markerId: MarkerId("origin"),
           position: position,
@@ -78,27 +75,31 @@ class _NewMainScreenState extends State<NewMainScreen> {
             var data = await _getLatLng(result);
             if (data != null) {
               if (_markers.length > 1) _markers.remove(_markers.last);
-              if (latlng.length > 1) latlng.removeLast();
               if (_polylines.length > 0) _polylines.remove(_polylines.last);
 
               setState(() {
-                latlng.add(data);
                 _userPlace = result;
                 _markers.add(Marker(
                     markerId: MarkerId(data.toString()),
                     position: data,
                     icon: BitmapDescriptor.defaultMarker));
-                _polylines.add(Polyline(
-                  polylineId: PolylineId(position.toString()),
-                  visible: true,
-                  points: latlng,
-                  color: Colors.blue,
-                  width: 5,
-                ));
               });
             } else {
               setState(() {
                 _userPlace = result;
+              });
+            }
+            var routes = await EstimateTime(userData: result, userGeo: this.position).getSteps();
+            if (routes.length != 0) {
+              setState(() {
+                _polylines.clear();
+                _polylines.add(Polyline(
+                  polylineId: PolylineId("direction"),
+                  visible: true,
+                  points: routes.toList(),
+                  color: Colors.blue,
+                  width: 5,
+                ));
               });
             }
           }
@@ -170,8 +171,6 @@ class _NewMainScreenState extends State<NewMainScreen> {
           setState(() {
             _currentIndex = index;
           });
-//          print(args['userLocation'].lat);
-//          print(args['userLocation'].long);
           if (index == 2 && _userPlace != null) {
             try {
               final UserPlace result = await EstimateTime(
