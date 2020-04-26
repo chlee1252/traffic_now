@@ -12,7 +12,7 @@ import 'package:trafficnow/widget/estTile.dart';
 import 'package:trafficnow/widget/infoCard.dart';
 import 'package:trafficnow/widget/myBottomNav.dart';
 
-//TODO: localStorage refactor
+//TODO: localStorage refactor (userLocation)
 //TODO: background Fetch
 
 class NewMainScreen extends StatefulWidget {
@@ -61,7 +61,7 @@ class _NewMainScreenState extends State<NewMainScreen> {
   Widget build(BuildContext context) {
     final CameraPosition _user = CameraPosition(
       target: position,
-      zoom: 14.0,
+      zoom: 15.0,
       tilt: 0,
     );
 
@@ -89,7 +89,9 @@ class _NewMainScreenState extends State<NewMainScreen> {
                 _userPlace = result;
               });
             }
-            var routes = await EstimateTime(userData: result, userGeo: this.position).getSteps();
+            var routes =
+                await EstimateTime(userData: result, userGeo: this.position)
+                    .getSteps();
             if (routes.length != 0) {
               setState(() {
                 _polylines.clear();
@@ -97,8 +99,8 @@ class _NewMainScreenState extends State<NewMainScreen> {
                   polylineId: PolylineId("direction"),
                   visible: true,
                   points: routes.toList(),
-                  color: Colors.blue,
                   width: 5,
+                  color: Colors.blue,
                 ));
               });
             }
