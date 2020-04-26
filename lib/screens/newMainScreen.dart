@@ -141,6 +141,8 @@ class _NewMainScreenState extends State<NewMainScreen> {
                         : AlarmTile(
                             value: _userPlace.turnON,
                             date: _userPlace.date,
+                            dest: _userPlace.formatURL(),
+                            start: '${position.latitude},${position.longitude}',
                             onChanged: (value) {
                               setState(() {
                                 _userPlace.turnON = value;

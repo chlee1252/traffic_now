@@ -1,13 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AlarmTile extends StatelessWidget {
-  AlarmTile({this.value, this.date, this.onChanged});
+  AlarmTile({this.value, this.date, this.start, this.dest, this.onChanged});
 
   final bool value;
   final DateTime date;
+  final String start;
+  final String dest;
   final ValueChanged<bool> onChanged;
+
+  _launchURL() async {
+    final url =
+        'https://www.google.com/maps/dir/?api=1&origin=$start&destination=$dest';
+    print(url);
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw "Could not launch $url";
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +37,7 @@ class AlarmTile extends StatelessWidget {
                 color: Colors.grey,
               ),
               onPressed: () {
-                print("Hello");
+                _launchURL();
               },
             ),
           ),
