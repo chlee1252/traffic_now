@@ -14,6 +14,7 @@ import 'package:trafficnow/widget/myBottomNav.dart';
 
 //TODO: localStorage refactor (userLocation)
 //TODO: background Fetch
+//TODO: Dynamic zoom by marker
 
 class NewMainScreen extends StatefulWidget {
   static final String id = "NewMainScreen";
@@ -61,7 +62,7 @@ class _NewMainScreenState extends State<NewMainScreen> {
   Widget build(BuildContext context) {
     final CameraPosition _user = CameraPosition(
       target: position,
-      zoom: 15.0,
+      zoom: 12.0,
       tilt: 0,
     );
 
@@ -98,7 +99,7 @@ class _NewMainScreenState extends State<NewMainScreen> {
                 _polylines.add(Polyline(
                   polylineId: PolylineId("direction"),
                   visible: true,
-                  points: routes.toList(),
+                  points: routes,
                   width: 5,
                   color: Colors.blue,
                 ));

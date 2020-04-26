@@ -9,42 +9,47 @@ class EstimateTime {
 
   final UserPlace userData;
   final LatLng userGeo;
-//  Set<LatLng> navigation = {};
 
-  String reformat(routes) {
-    String latlng_string = "";
-    routes.toList().forEach((element) {
-      latlng_string += "${element.latitude},${element.longitude}|";
-    });
-
-    return latlng_string.substring(0, latlng_string.length - 1);
+  // Code is from Medium
+  List _decode(String poly) {
+    var list = poly.codeUnits;
+    var lList = new List();
+    int index = 0;
+    int len = poly.length;
+    int c = 0;
+    do {
+      var shift = 0;
+      int result = 0;
+      do {
+        c = list[index] - 63;
+        result |= (c & 0x1F) << (shift * 5);
+        index++;
+        shift++;
+      }
+      while (c >= 32);
+      if (result & 1 == 1) {
+        result = ~result;
+      }
+      var result1 = (result >> 1) * 0.00001;
+      lList.add(result1);
+    } while (index < len);
+    for (var i = 2; i < lList.length; i++)
+      lList[i] += lList[i - 2];
+    return lList;
   }
 
-  Future<Set> getSteps() async {
-//    String latlng_string = "";
-//    routes.toList().forEach((element) {
-//      latlng_string += "${element.latitude},${element.longitude}|";
-//    });
-//    latlng_string = latlng_string.substring(0, latlng_string.length-1);
-//    final String url = "https://roads.googleapis.com/v1/snapToRoads?interpolate=true&path=$latlng_string&key=$myKey";
-//    var response = await http.get(url, headers: {
-//      "Accept": "application/json",
-//    });
-//
-//    if (response.statusCode == 200) {
-//      var data = jsonDecode(response.body);
-//
-//      data['snappedPoints'].forEach((element) {
-//        print(element['location']['latitude']);
-//        print(element['location']['longitude']);
-//      });
-////      print(data['snappedPoints']['location']['latitude']);
-////      print(data['snappedPoints']['location']['longitude']);
-//    } else {
-//      print(response.statusCode);
-//    }
-    Set<LatLng> navigation = {};
-    String latlng = "";
+  List<LatLng> _convertToLatLng(List points) {
+    List<LatLng> result = [];
+    for (int i = 0; i < points.length; i++) {
+      if (i % 2 != 0) {
+        result.add(LatLng(points[i-1], points[i]));
+      }
+    }
+    return result;
+  }
+
+  Future<List> getSteps() async {
+    List<LatLng> navigation;
     final String url =
         "https://maps.googleapis.com/maps/api/directions/json?departure_time=now&origin=${this.userGeo.latitude}, ${this.userGeo.longitude}&destination=place_id:${this.userData.destID}&key=$myKey";
     var response = await http.get(url, headers: {
@@ -54,38 +59,12 @@ class EstimateTime {
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
       try {
-        var steps = data['routes'][0]['legs'][0]['steps'];
-        steps.forEach((value) {
-          navigation.add(LatLng(
-              value['start_location']['lat'], value['start_location']['lng']));
-          navigation.add(LatLng(
-              value['end_location']['lat'], value['end_location']['lng']));
-        });
+        var steps = data['routes'][0]['overview_polyline']['points'];
+        navigation = _convertToLatLng(_decode(steps));
       } catch (e) {
-        print(e);
+        navigation = [];
       }
     }
-
-    if (navigation.length > 0) {
-      final String roadUrl =
-          "https://roads.googleapis.com/v1/snapToRoads?interpolate=true&path=${this.reformat(navigation)}&key=$myKey";
-      print(roadUrl);
-      var response = await http.get(roadUrl, headers: {
-        "Accept": "application/json",
-      });
-      if (response.statusCode == 200) {
-        navigation.clear();
-        var data = jsonDecode(response.body);
-        try {
-          data['snappedPoints'].forEach((element) {
-            navigation.add(LatLng(element['location']['latitude'], element['location']['longitude']));
-          });
-        } catch (e) {
-          print(e);
-        }
-      }
-    }
-
     return navigation;
   }
 
