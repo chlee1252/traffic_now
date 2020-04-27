@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:trafficnow/module/userPlace.dart';
 import 'package:trafficnow/service/location.dart';
+import 'package:trafficnow/notification/notification.dart';
 import 'package:trafficnow/screens/placeInputScreen.dart';
 import 'package:trafficnow/service/convertLatLong.dart';
 import 'package:trafficnow/service/estimateTime.dart';
+import 'package:trafficnow/storage/storage.dart';
 import 'package:trafficnow/widget/alarmTile.dart';
 import 'package:trafficnow/widget/destTile.dart';
 import 'package:trafficnow/widget/emptyTile.dart';
@@ -12,7 +15,6 @@ import 'package:trafficnow/widget/estTile.dart';
 import 'package:trafficnow/widget/infoCard.dart';
 import 'package:trafficnow/widget/myBottomNav.dart';
 
-//TODO: localStorage refactor (userLocation)
 //TODO: background Fetch
 //TODO: Dynamic zoom by marker
 
@@ -28,14 +30,29 @@ class NewMainScreen extends StatefulWidget {
 
 class _NewMainScreenState extends State<NewMainScreen> {
   UserPlace _userPlace;
+  Storage storage = new Storage();
   LatLng position;
   int _currentIndex = 0;
+  FlutterLocalNotificationsPlugin plugin = FlutterLocalNotificationsPlugin();
   Set<Marker> _markers = {};
-  Set<Polyline> _polylines = {};
+  Set<Polyline> _polyline = {};
 
   @override
   void initState() {
     super.initState();
+    // Check if the storage has item. If it does, get it.
+    storage.isReady().then((data) {
+      setState(() {
+        if (data) {
+          _userPlace = storage.getItems();
+          _addMarker(_userPlace);
+          _addRoute(_userPlace);
+        } else {
+          _userPlace = null;
+        }
+      });
+    });
+    // Get Current User location.
     position = LatLng(widget.userLocation.lat, widget.userLocation.long);
     setState(() {
       _markers.add(Marker(
@@ -44,6 +61,8 @@ class _NewMainScreenState extends State<NewMainScreen> {
           icon: BitmapDescriptor.defaultMarkerWithHue(
               BitmapDescriptor.hueAzure)));
     });
+    requestIOS(plugin);
+    initializeNotifications(plugin);
   }
 
   Future<LatLng> _getLatLng(UserPlace userPlace) async {
@@ -54,8 +73,39 @@ class _NewMainScreenState extends State<NewMainScreen> {
     } catch (e) {
       result = null;
     }
-
     return result;
+  }
+
+  _addMarker(UserPlace result) async {
+    var data = await _getLatLng(result);
+    if (data != null) {
+      if (_markers.length > 1) _markers.remove(_markers.last);
+
+      setState(() {
+        _markers.add(Marker(
+            markerId: MarkerId(data.toString()),
+            position: data,
+            icon: BitmapDescriptor.defaultMarker));
+      });
+    }
+  }
+
+  _addRoute(UserPlace result) async {
+    var routes =
+        await EstimateTime(userData: result, userGeo: this.position)
+        .getSteps();
+    if (routes.length != 0) {
+      setState(() {
+        _polyline.clear();
+        _polyline.add(Polyline(
+          polylineId: PolylineId("direction"),
+          visible: true,
+          points: routes,
+          width: 3,
+          color: Colors.blue,
+        ));
+      });
+    }
   }
 
   @override
@@ -73,38 +123,13 @@ class _NewMainScreenState extends State<NewMainScreen> {
           final result =
               await Navigator.pushNamed(context, PlaceInputScreen.id);
           if (result != null) {
-            var data = await _getLatLng(result);
-            if (data != null) {
-              if (_markers.length > 1) _markers.remove(_markers.last);
-              if (_polylines.length > 0) _polylines.remove(_polylines.last);
+            _addMarker(result);
+            setState(() {
+              _userPlace = result;
+              storage.setItem(_userPlace);
+            });
+            _addRoute(result);
 
-              setState(() {
-                _userPlace = result;
-                _markers.add(Marker(
-                    markerId: MarkerId(data.toString()),
-                    position: data,
-                    icon: BitmapDescriptor.defaultMarker));
-              });
-            } else {
-              setState(() {
-                _userPlace = result;
-              });
-            }
-            var routes =
-                await EstimateTime(userData: result, userGeo: this.position)
-                    .getSteps();
-            if (routes.length != 0) {
-              setState(() {
-                _polylines.clear();
-                _polylines.add(Polyline(
-                  polylineId: PolylineId("direction"),
-                  visible: true,
-                  points: routes,
-                  width: 5,
-                  color: Colors.blue,
-                ));
-              });
-            }
           }
         },
         backgroundColor: Color.fromRGBO(219, 235, 196, 1.0),
@@ -121,7 +146,7 @@ class _NewMainScreenState extends State<NewMainScreen> {
                   mapType: MapType.normal,
                   initialCameraPosition: _user,
                   markers: _markers,
-                  polylines: _polylines,
+                  polylines: _polyline,
                   trafficEnabled: true,
                   myLocationEnabled: true,
                 ),
@@ -149,7 +174,13 @@ class _NewMainScreenState extends State<NewMainScreen> {
                             start: '${position.latitude},${position.longitude}',
                             onChanged: (value) {
                               setState(() {
+                                if (value) {
+                                  scheduleNotification(plugin, _userPlace, 0);
+                                } else {
+                                  plugin.cancel(0);
+                                }
                                 _userPlace.turnON = value;
+                                storage.setItem(_userPlace);
                               });
                             },
                           ),

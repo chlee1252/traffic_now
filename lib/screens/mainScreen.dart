@@ -52,7 +52,7 @@ class _MainScreenState extends State<MainScreen> {
     testList.scheduleList.insert(_index, value);
     _listKey.currentState.insertItem(_index);
     setState(() {
-      storage.setItem(testList);
+//      storage.setItem(testList);
     });
   }
 
@@ -61,7 +61,7 @@ class _MainScreenState extends State<MainScreen> {
         .removeItem(index, (context, animation) => Container());
     testList.scheduleList.removeAt(index);
     setState(() {
-      storage.setItem(testList);
+//      storage.setItem(testList);
       testList = storage.scheduleList;
     });
   }

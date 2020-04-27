@@ -60,7 +60,7 @@ class _MySwitchListTileState extends State<MySwitchListTile> {
           widget.data.turnON = value;
         });
         widget.list.scheduleList[widget.index] = widget.data;
-        widget.storage.setItem(widget.list);
+//        widget.storage.setItem(widget.list);
         if (widget.data.turnON) {
           scheduleNotification(widget.plugin, widget.data, widget.myKey);
           //TODO: Do Something when Switch is on

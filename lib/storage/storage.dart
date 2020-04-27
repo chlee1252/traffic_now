@@ -12,10 +12,14 @@ class Storage {
     return ready;
   }
 
-  // Set item to local storage
-  setItem(ScheduleList list) {
+  setItem(UserPlace list) {
     storage.setItem('item', list.supportJSON());
   }
+
+//  // Set item to local storage
+//  setItem(ScheduleList list) {
+//    storage.setItem('item', list.supportJSON());
+//  }
 
   // Clear all Item in localStorage
   clearItem() async {
@@ -23,24 +27,40 @@ class Storage {
     scheduleList.scheduleList = [];
   }
 
-  // Get items from local storage
   getItems() {
-    final result = storage.getItem('item');
-    if (result != null) {
-      scheduleList.scheduleList = List<UserPlace>.from(
-        (result as List).map(
-          (item) => UserPlace(
-            date: DateTime.parse(item['date']),
-            startPoint: item['start'],
-            dest: item['dest'],
-            startID: item['startID'],
-            destID: item['destID'],
-            turnON: item['turnON'],
-          ),
-        ),
+    UserPlace result;
+    final item = storage.getItem('item');
+    if (item != null) {
+      result = UserPlace(
+        date: DateTime.parse(item['date']),
+        startPoint: item['start'],
+        dest: item['dest'],
+        startID: item['startID'],
+        destID: item['destID'],
+        turnON: item['turnON'],
       );
     }
-    return scheduleList;
-  }
 
+    return result;
+  }
+//
+//  // Get items from local storage
+//  getItems() {
+//    final result = storage.getItem('item');
+//    if (result != null) {
+//      scheduleList.scheduleList = List<UserPlace>.from(
+//        (result as List).map(
+//          (item) => UserPlace(
+//            date: DateTime.parse(item['date']),
+//            startPoint: item['start'],
+//            dest: item['dest'],
+//            startID: item['startID'],
+//            destID: item['destID'],
+//            turnON: item['turnON'],
+//          ),
+//        ),
+//      );
+//    }
+//    return scheduleList;
+//  }
 }

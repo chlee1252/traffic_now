@@ -27,9 +27,9 @@ class DestTile extends StatelessWidget {
             child: AutoSizeText(
               this.dest,
               style: TextStyle(
-                  fontSize: 20.0,
+                  fontSize: 18.0,
                   fontWeight: FontWeight.bold),
-              maxLines: 1,
+              maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
           ),
