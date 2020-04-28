@@ -32,7 +32,7 @@ Future<void> scheduleNotification(
   await plugin.showDailyAtTime(
       id,
       "${DateFormat.jm().format(userPlace.date)}",
-      "Your current Est Time for ${userPlace.dest} is {time}",
+      "Please open up your map and find best route and time to go ${userPlace.dest}",
       Time(hour, minute, 0),
       platformChannelSpecifics);
 }

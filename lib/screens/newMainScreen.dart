@@ -15,8 +15,8 @@ import 'package:trafficnow/widget/estTile.dart';
 import 'package:trafficnow/widget/infoCard.dart';
 import 'package:trafficnow/widget/myBottomNav.dart';
 
-//TODO: background Fetch
-//TODO: Dynamic zoom by marker
+//TODO: background Fetch Is it possible..??? Maybe use
+//TODO: Dynamic zoom by marker (Additional Feature)
 
 class NewMainScreen extends StatefulWidget {
   static final String id = "NewMainScreen";
