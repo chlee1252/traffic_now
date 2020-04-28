@@ -177,7 +177,7 @@ class _NewMainScreenState extends State<NewMainScreen> {
                                 if (value) {
                                   scheduleNotification(plugin, _userPlace, 0);
                                 } else {
-                                  plugin.cancel(0);
+                                  plugin.cancelAll();
                                 }
                                 _userPlace.turnON = value;
                                 storage.setItem(_userPlace);
