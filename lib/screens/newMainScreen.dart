@@ -15,7 +15,7 @@ import 'package:trafficnow/widget/estTile.dart';
 import 'package:trafficnow/widget/infoCard.dart';
 import 'package:trafficnow/widget/myBottomNav.dart';
 
-//TODO: background Fetch Is it possible..??? Maybe use
+//TODO: Add duration to DateTime.now() to show ETA
 //TODO: Dynamic zoom by marker (Additional Feature)
 
 class NewMainScreen extends StatefulWidget {
