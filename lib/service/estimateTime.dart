@@ -78,11 +78,18 @@ class EstimateTime {
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
       try {
-        var time = data["routes"][0]["legs"][0]["duration_in_traffic"]['text'];
+        var traffic = data["routes"][0]["legs"][0]["duration_in_traffic"];
+        var time = traffic['text'];
+        var value = traffic['value'];
         userData.estTime = time;
+        userData.estValue = value;
       } catch (e) {
-        var time = data["routes"][0]["legs"][0]["duration"]['text'];
+        var noTraffic = data["routes"][0]["legs"][0]["duration"];
+        var time = noTraffic['text'];
+        var value = noTraffic['value'];
         userData.estTime = time;
+        userData.estValue = value;
+
       }
     }
 

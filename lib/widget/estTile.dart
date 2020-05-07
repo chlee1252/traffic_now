@@ -51,12 +51,13 @@ class _EstTileState extends State<EstTile> {
                 ),
                 Expanded(
                   child: Center(
-                    child: Text(
-                      widget.userPlace.estTime,
+                    child: AutoSizeText(
+                      "${DateFormat.jm().format(this.now.add(Duration(seconds: widget.userPlace.estValue)))} (${widget.userPlace.estTime})",
                       style: TextStyle(
                           fontSize: 25.0,
                           color: Colors.green,
                           fontWeight: FontWeight.bold),
+                      maxLines: 1,
                     ),
                   ),
                 ),

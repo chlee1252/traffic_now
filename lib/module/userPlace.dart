@@ -5,15 +5,17 @@ class UserPlace {
   String startID;
   String destID;
   String estTime;
+  int estValue;
   bool turnON;
 
-  UserPlace({DateTime date, String startPoint, String dest, String startID, String destID, bool turnON=false}) {
+  UserPlace({DateTime date, String startPoint, String dest, String startID, String destID, int estValue, bool turnON=false}) {
     this.date = date;
     this.startPoint = startPoint;
     this.dest = dest;
     this.startID = startID;
     this.destID = destID;
     this.turnON = turnON;
+    this.estValue = estValue;
   }
 
   formatURL() {
