@@ -63,7 +63,6 @@ class _MySwitchListTileState extends State<MySwitchListTile> {
 //        widget.storage.setItem(widget.list);
         if (widget.data.turnON) {
           scheduleNotification(widget.plugin, widget.data, widget.myKey);
-          //TODO: Do Something when Switch is on
           closeButtonDialog(
               context: context,
               title: "Turned On!",
