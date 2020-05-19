@@ -24,17 +24,14 @@ class _SplashScreenState extends State<SplashScreen> {
     Location location = Location();
     await location.getLocation();
 
-    Timer(
-      Duration(seconds: 2),
-      () => Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) {
-            return NewMainScreen(
-              userLocation: location,
-            );
-          },
-        ),
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return NewMainScreen(
+            userLocation: location,
+          );
+        },
       ),
     );
 
