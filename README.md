@@ -1,16 +1,41 @@
-# trafficnow
+# TrafficNow
 
-Scheduled current Traffic information notify application.
+[![Build Status](https://img.shields.io/badge/Platform-Flutter-blue.svg)](https://flutter.io)
 
-## Getting Started
+TrafficNow is helping users to give current traffic status scheduled time on custom routes.
 
-This project is a starting point for a Flutter application.
+### Demo
+<Insert GIF>
 
-A few resources to get you started if this is your first Flutter project:
+### Third Party Library
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+TrafficNow Using multiple open source third party libraries.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+#### Dart
+Libraries to use core Dart.
+* [intl](https://pub.dev/packages/intl) : To Format DateTime
+#### Google API
+Libraries to connect to Google APIs.
+* [flutter_google_places](https://pub.dev/packages/flutter_google_places) : Embeding Google Places to search places
+* [google_maps_flutter](https://pub.dev/packages/google_maps_flutter) : Embedding Google Maps to Application
+* [http](https://pub.dev/packages/http) : Get JSON Data from Google Directions API
+* [url_launcher](https://pub.dev/packages/url_launcher) : To redirect to Google Maps Application
+#### Functions
+* [localstorage](https://pub.dev/packages/localstorage) : Saved User Route, Scheduled Time, EST Time.
+* [flutter_local_notifications](https://pub.dev/packages/flutter_local_notifications) : To send notification on scheduled time.
+* [geolocator](https://pub.dev/packages/geolocator) : To get current user location
+#### Widgets
+* [auto_size_text](https://pub.dev/packages/auto_size_text) : Re-sizing text
+* [flutter_spinkit](https://pub.dev/packages/flutter_spinkit) : Loading Animation
+* [bubble_bottom_bar](https://pub.dev/packages/bubble_bottom_bar) : Bottom Bar
+
+### Todos
+
+ - Optimize Code
+ - Provider - State Management
+
+License
+----
+
+MIT
+
