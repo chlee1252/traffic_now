@@ -4,10 +4,10 @@
 
 TrafficNow is helping users to give current traffic status scheduled time on custom routes.
 
-### Demo
+## Demo
 <Insert GIF>
 
-### Third Party Library
+## Third Party Library
 
 TrafficNow Using multiple open source third party libraries.
 
@@ -29,7 +29,7 @@ Libraries to connect to Google APIs.
 * [flutter_spinkit](https://pub.dev/packages/flutter_spinkit) : Loading Animation
 * [bubble_bottom_bar](https://pub.dev/packages/bubble_bottom_bar) : Bottom Bar
 
-### Todos
+## Todos
 
  - Optimize Code
  - Provider - State Management
