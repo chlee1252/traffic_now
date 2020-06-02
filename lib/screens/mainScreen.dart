@@ -2,18 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:trafficnow/module/userPlace.dart';
-import 'package:trafficnow/service/location.dart';
 import 'package:trafficnow/notification/notification.dart';
 import 'package:trafficnow/screens/placeInputScreen.dart';
+import 'package:trafficnow/service/location.dart';
 import 'package:trafficnow/service/convertLatLong.dart';
 import 'package:trafficnow/service/estimateTime.dart';
 import 'package:trafficnow/storage/storage.dart';
-import 'package:trafficnow/widget/alarmTile.dart';
-import 'package:trafficnow/widget/destTile.dart';
-import 'package:trafficnow/widget/emptyTile.dart';
-import 'package:trafficnow/widget/estTile.dart';
-import 'package:trafficnow/widget/infoCard.dart';
-import 'package:trafficnow/widget/myBottomNav.dart';
+import 'package:trafficnow/widget/mainScreenWidgets.dart';
 
 //TODO: Dynamic zoom by marker (Additional Feature)
 
