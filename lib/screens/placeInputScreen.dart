@@ -14,25 +14,21 @@ class PlaceInputScreen extends StatefulWidget {
 }
 
 class _PlaceInputScreenState extends State<PlaceInputScreen> {
-  FocusNode _startFocusNode, _destFocusNode;
-  TextEditingController _startController, _destController;
+  FocusNode _destFocusNode;
+  TextEditingController _destController;
   UserPlace _data;
 
   @override
   void initState() {
     super.initState();
-    _startFocusNode = new FocusNode();
     _destFocusNode = new FocusNode();
-    _startController = new TextEditingController();
     _destController = new TextEditingController();
     _data = new UserPlace();
   }
 
   @override
   void dispose() {
-    _startFocusNode.dispose();
     _destFocusNode.dispose();
-    _startController.dispose();
     _destController.dispose();
     super.dispose();
   }
@@ -93,50 +89,10 @@ class _PlaceInputScreenState extends State<PlaceInputScreen> {
                       ),
                     ),
                   ),
-//                  Padding(
-//                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-//                    child: TextField(
-//                      focusNode: _startFocusNode,
-//                      controller: _startController,
-//                      onTap: () async {
-//                        var value = await getPrediction();
-//
-//                        if (value != null) {
-//                          _startController.text = value.description;
-//                          setState(() {
-//                            FocusScope.of(context).requestFocus(new FocusNode());
-//                            this._data.startPoint = value?.description;
-//                            this._data.startID = value?.placeId;
-//                          });
-//                        }
-//                      },
-//                      onChanged: (value) {
-//                        setState(() {
-//                          this._data.startPoint = value;
-//                        });
-//                      },
-//                      decoration: InputDecoration(
-//                          enabledBorder: OutlineInputBorder(
-//                            borderSide: BorderSide(
-//                                width: 2.0,
-//                                color: Colors.black54),
-//                          ),
-//                          focusedBorder: OutlineInputBorder(
-//                            borderSide: BorderSide(
-//                                width: 2.5,
-//                                color: Color.fromRGBO(148, 119, 255, 1.0)),
-//                          ),
-//                          labelText: "Start Place",
-//                          labelStyle: TextStyle(
-//                              fontWeight: FontWeight.bold,
-//                              color: Colors.black54)),
-//                    ),
-//                  ),
                   Padding(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 10.0),
                     child: TextField(
-                      focusNode: _destFocusNode,
                       controller: _destController,
                       onTap: () async {
                         var value = await getPrediction();
@@ -149,11 +105,6 @@ class _PlaceInputScreenState extends State<PlaceInputScreen> {
                           });
                         }
                         FocusScope.of(context).requestFocus(new FocusNode());
-                      },
-                      onChanged: (value) {
-                        setState(() {
-                          this._data.dest = value;
-                        });
                       },
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
@@ -183,7 +134,6 @@ class _PlaceInputScreenState extends State<PlaceInputScreen> {
                       ),
                       textColor: Colors.black,
                       onPressed: () async {
-                        FocusScope.of(context).unfocus();
                         if (this._data.dest == null) {
                           closeButtonDialog(
                               context: context,
