@@ -17,6 +17,7 @@ class EstTile extends StatefulWidget {
 
 class _EstTileState extends State<EstTile> {
   DateTime now;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -26,9 +27,9 @@ class _EstTileState extends State<EstTile> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.userPlace == null
+    return isLoading
         ? Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.green),),
           )
         : Padding(
             padding: const EdgeInsets.all(8.0),
@@ -70,6 +71,9 @@ class _EstTileState extends State<EstTile> {
                         color: Colors.green,
                       ),
                       onPressed: () async {
+                        setState(() {
+                          this.isLoading = true;
+                        });
                         final UserPlace result = await EstimateTime(
                           userData: widget.userPlace,
                           userGeo: widget.startGeo,
@@ -77,6 +81,7 @@ class _EstTileState extends State<EstTile> {
                         setState(() {
                           this.now = DateTime.now();
                           widget.userPlace = result;
+                          this.isLoading = false;
                         });
                       },
                     ),
