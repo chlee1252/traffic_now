@@ -28,6 +28,8 @@ Libraries to connect to Google APIs.
 * [auto_size_text](https://pub.dev/packages/auto_size_text) : Re-sizing text
 * [flutter_spinkit](https://pub.dev/packages/flutter_spinkit) : Loading Animation
 * [bubble_bottom_bar](https://pub.dev/packages/bubble_bottom_bar) : Bottom Bar
+#### StateManagement
+* [provider](https://pub.dev/packages/provider) : State Management
 
 ## Todos
 
