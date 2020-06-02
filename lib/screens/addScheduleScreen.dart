@@ -10,21 +10,21 @@ class AddScheduleScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Map args = ModalRoute.of(context).settings.arguments as Map;
-    return ChangeNotifierProvider<SelectTime>(
-      create: (context) => SelectTime(),
-      child: Scaffold(
-        backgroundColor: Color.fromRGBO(219, 235, 196, 1.0),
-        appBar: AppBar(
-          elevation: 0.0,
-          title: FittedBox(
-            fit: BoxFit.fitWidth,
-            child: Text(
-              "Add New Schedule",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
+    return Scaffold(
+      backgroundColor: Color.fromRGBO(219, 235, 196, 1.0),
+      appBar: AppBar(
+        elevation: 0.0,
+        title: FittedBox(
+          fit: BoxFit.fitWidth,
+          child: Text(
+            "Add New Schedule",
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
-        body: SafeArea(
+      ),
+      body: ChangeNotifierProvider(
+        create: (context) => SelectTime(),
+        child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(15.0),
             child: Card(
