@@ -4,7 +4,7 @@ import 'package:trafficnow/screens/addScheduleScreen.dart';
 import 'package:trafficnow/API/credential.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_maps_webservice/places.dart';
-import 'package:trafficnow/widget/myDialog.dart';
+import 'package:trafficnow/widget/src/myDialog.dart';
 
 class PlaceInputScreen extends StatefulWidget {
   static final String id = "PlaceInputScreen";
