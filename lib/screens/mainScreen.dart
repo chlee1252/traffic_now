@@ -1,176 +1,222 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:trafficnow/screens/placeInputScreen.dart';
-import 'package:trafficnow/widget/mySwitchListTile.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:trafficnow/module/userPlace.dart';
-import 'package:trafficnow/module/scheduleList.dart';
-import 'package:trafficnow/storage/storage.dart';
+import 'package:trafficnow/service/location.dart';
 import 'package:trafficnow/notification/notification.dart';
+import 'package:trafficnow/screens/placeInputScreen.dart';
+import 'package:trafficnow/service/convertLatLong.dart';
+import 'package:trafficnow/service/estimateTime.dart';
+import 'package:trafficnow/storage/storage.dart';
+import 'package:trafficnow/widget/alarmTile.dart';
+import 'package:trafficnow/widget/destTile.dart';
+import 'package:trafficnow/widget/emptyTile.dart';
+import 'package:trafficnow/widget/estTile.dart';
+import 'package:trafficnow/widget/infoCard.dart';
+import 'package:trafficnow/widget/myBottomNav.dart';
 
-//TODO: Change UI/UX, put Google Map
-//TODO: Get Current Location
-//TODO: Put Marker in Google Map
-//TODO: Background Execution (background_fetch 0.5.5)
-//TODO: Setup GoogleMAP API (Places, direction)
-// ["routes"][0]["legs"][0]["duration_in_traffic"]['text']
-// https://maps.googleapis.com/maps/api/directions/json?departure_time=now&origin=place_id:{}&destination=place_id:{}&key=myKey
+//TODO: Dynamic zoom by marker (Additional Feature)
 
 class MainScreen extends StatefulWidget {
-  MainScreen({Key key}) : super(key: key);
-
   static final String id = "MainScreen";
+  final Location userLocation;
+
+  MainScreen({this.userLocation});
 
   @override
   _MainScreenState createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
-  ScheduleList testList;
   UserPlace _userPlace;
-  DateTime date;
-  String start, dest;
   Storage storage = new Storage();
-  FlutterLocalNotificationsPlugin plugin;
-  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
+  LatLng position;
+  int _currentIndex = 0;
+  FlutterLocalNotificationsPlugin plugin = FlutterLocalNotificationsPlugin();
+  Set<Marker> _markers = {};
+  Set<Polyline> _polyline = {};
 
   @override
   void initState() {
     super.initState();
+    // Check if the storage has item. If it does, get it.
     storage.isReady().then((data) {
       setState(() {
-        data ? testList = storage.getItems() : testList = new ScheduleList();
+        if (data) {
+          _userPlace = storage.getItems();
+          _addMarker(_userPlace);
+          _addRoute(_userPlace);
+        } else {
+          _userPlace = null;
+        }
       });
     });
-    plugin = FlutterLocalNotificationsPlugin();
+    // Get Current User location.
+    position = LatLng(widget.userLocation.lat, widget.userLocation.long);
+    setState(() {
+      _markers.add(Marker(
+          markerId: MarkerId("origin"),
+          position: position,
+          icon: BitmapDescriptor.defaultMarkerWithHue(
+              BitmapDescriptor.hueAzure)));
+    });
     requestIOS(plugin);
     initializeNotifications(plugin);
   }
 
-  void _addItem(UserPlace value) {
-    final int _index = testList.scheduleList.length;
-    testList.scheduleList.insert(_index, value);
-    _listKey.currentState.insertItem(_index);
-    setState(() {
-//      storage.setItem(testList);
-    });
+  Future<LatLng> _getLatLng(UserPlace userPlace) async {
+    ConvertLatLong data = ConvertLatLong(data: userPlace);
+    LatLng result;
+    try {
+      result = await data.getLatLng();
+    } catch (e) {
+      result = null;
+    }
+    return result;
   }
 
-  void _removeItem(int index) {
-    _listKey.currentState
-        .removeItem(index, (context, animation) => Container());
-    testList.scheduleList.removeAt(index);
-    setState(() {
-//      storage.setItem(testList);
-      testList = storage.scheduleList;
-    });
+  _addMarker(UserPlace result) async {
+    var data = await _getLatLng(result);
+    if (data != null) {
+      if (_markers.length > 1) _markers.remove(_markers.last);
+
+      setState(() {
+        _markers.add(Marker(
+            markerId: MarkerId(data.toString()),
+            position: data,
+            icon: BitmapDescriptor.defaultMarker));
+      });
+    }
   }
 
-  Widget _buildItem(UserPlace _item, int index, Animation _animation) {
-    return Dismissible(
-      key: Key("${testList.scheduleList[index]}"),
-      direction: DismissDirection.endToStart,
-      child: SizeTransition(
-        sizeFactor: _animation,
-        child: Card(
-          color: Colors.white,
-          elevation: 2.0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
-          ),
-          child: Container(
-            height: 120.0,
-            child: Center(
-              child: MySwitchListTile(
-                plugin: plugin,
-                myKey: index,
-                data: _item,
-                index: index,
-                storage: this.storage,
-                list: this.testList,
-              ),
-            ),
-          ),
-        ),
-      ),
-      background: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        color: Colors.red,
-        child: Container(
-          alignment: AlignmentDirectional.centerEnd,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Icon(
-              Icons.delete,
-              color: Colors.white,
-              size: 30.0,
-            ),
-          ),
-        ),
-      ),
-      onDismissed: (direction) {
-        setState(() {
-          _removeItem(index);
-          plugin.cancel(index);
-        });
-      },
-    );
+  _addRoute(UserPlace result) async {
+    var routes =
+        await EstimateTime(userData: result, userGeo: this.position)
+        .getSteps();
+    if (routes.length != 0) {
+      setState(() {
+        _polyline.clear();
+        _polyline.add(Polyline(
+          polylineId: PolylineId("direction"),
+          visible: true,
+          points: routes,
+          width: 3,
+          color: Colors.blue,
+        ));
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final CameraPosition _user = CameraPosition(
+      target: position,
+      zoom: 12.0,
+      tilt: 0,
+    );
+
     return Scaffold(
-      backgroundColor: Color.fromRGBO(219, 235, 196, 1.0),
-      appBar: AppBar(
-        centerTitle: false,
-        elevation: 0.0,
-        title: FittedBox(
-          fit: BoxFit.fitWidth,
-          child: Text(
-            'TrafficNow',
-            style: TextStyle(fontSize: 33.0),
-          ),
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.add,
-//              color: Colors.white,
-              size: 30.0,
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add_alarm),
+        onPressed: () async {
+          final result =
+              await Navigator.pushNamed(context, PlaceInputScreen.id);
+          if (result != null) {
+            _addMarker(result);
+            setState(() {
+              _userPlace = result;
+            });
+            storage.setItem(_userPlace);
+            _addRoute(result);
+
+          }
+        },
+        backgroundColor: Color.fromRGBO(219, 235, 196, 1.0),
+        foregroundColor: Colors.black,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      body: Column(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              child: GoogleMap(
+                mapType: MapType.normal,
+                initialCameraPosition: _user,
+                markers: _markers,
+                polylines: _polyline,
+                trafficEnabled: true,
+                myLocationEnabled: true,
+              ),
             ),
-            onPressed: () async {
-              final result =
-                  await Navigator.pushNamed(context, PlaceInputScreen.id);
-              setState(() {
-                this._userPlace = result;
-                if (this._userPlace != null) {
-                  _addItem(this._userPlace);
-                }
-              });
-            },
-          )
+          ),
+          Container(
+            height: MediaQuery.of(context).size.height * 0.19,
+            child: IndexedStack(
+              index: _currentIndex,
+              children: [
+                InfoCard(
+                  child: _userPlace == null
+                      ? EmptyTile()
+                      : DestTile(
+                          dest: _userPlace.dest,
+                        ),
+                ),
+                InfoCard(
+                  child: _userPlace == null
+                      ? EmptyTile()
+                      : AlarmTile(
+                          value: _userPlace.turnON,
+                          date: _userPlace.date,
+                          dest: _userPlace.formatURL(),
+                          start: '${position.latitude},${position.longitude}',
+                          onChanged: (value) {
+                            setState(() {
+                              if (value) {
+                                scheduleNotification(plugin, _userPlace, 0);
+                              } else {
+                                plugin.cancelAll();
+                              }
+                              _userPlace.turnON = value;
+                              storage.setItem(_userPlace);
+                            });
+                          },
+                        ),
+                ),
+                InfoCard(
+                  child: this._userPlace?.estTime == null
+                      ? EmptyTile()
+                      : EstTile(
+                          userPlace: this._userPlace,
+                          startGeo: position,
+                        ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
-      body: testList == null
-          ? Center(
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-              ),
-            )
-          : AnimatedList(
-              key: _listKey,
-              initialItemCount: testList.scheduleList.length,
-              itemBuilder: (
-                context,
-                index,
-                animation
-              ) {
-                return _buildItem(
-                    testList.scheduleList[index], index, animation);
-              },
-            ),
+      bottomNavigationBar: MyBottomNav(
+        currentIndex: _currentIndex,
+        onTap: (index) async {
+          setState(() {
+            _currentIndex = index;
+          });
+          if (index == 2 && _userPlace != null) {
+            try {
+              final UserPlace result = await EstimateTime(
+                      userData: this._userPlace, userGeo: position)
+                  .getEstimate();
+
+              setState(() {
+                this._userPlace = result;
+              });
+            } catch (e) {
+              print(e);
+            }
+          }
+        },
+      ),
     );
   }
 }

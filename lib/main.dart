@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:trafficnow/screens/addScheduleScreen.dart';
-import 'package:trafficnow/screens/mainScreen.dart';
 import 'package:trafficnow/screens/placeInputScreen.dart';
 import 'package:trafficnow/screens/splashScreen.dart';
-import 'package:trafficnow/screens/newMainScreen.dart';
-
-
+import 'package:trafficnow/screens/mainScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -32,7 +29,6 @@ class MyApp extends StatelessWidget {
         MainScreen.id: (context) => MainScreen(),
         AddScheduleScreen.id: (context) => AddScheduleScreen(),
         PlaceInputScreen.id: (context) => PlaceInputScreen(),
-        NewMainScreen.id: (context) => NewMainScreen(),
       },
     );
   }

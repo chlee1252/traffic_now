@@ -1,9 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:trafficnow/screens/mainScreen.dart';
-import 'package:trafficnow/screens/newMainScreen.dart';
 import 'package:trafficnow/service/location.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -28,17 +25,12 @@ class _SplashScreenState extends State<SplashScreen> {
       context,
       MaterialPageRoute(
         builder: (context) {
-          return NewMainScreen(
+          return MainScreen(
             userLocation: location,
           );
         },
       ),
     );
-
-//    Timer(
-//        Duration(seconds: 2),
-//        () => Navigator.pushReplacementNamed(context, NewMainScreen.id,
-//            arguments: {'userLocation': location}));
   }
 
   @override
