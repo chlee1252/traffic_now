@@ -9,6 +9,7 @@ class UserPlaceProvider extends ChangeNotifier {
 
   void setUserData(UserPlace userPlace) {
     _userPlace = userPlace;
+    notifyListeners();
   }
 
   void localStorage() {
@@ -20,6 +21,6 @@ class UserPlaceProvider extends ChangeNotifier {
         _userPlace = null;
       }
     });
-    
+    notifyListeners();
   }
 }
