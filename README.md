@@ -34,7 +34,7 @@ Libraries to connect to Google APIs.
 ## Todos
 
  - Optimize Code
- - Provider - State Management
+ - Provider - State Management (Implement mainScreen provider state management)
 
 License
 ----
