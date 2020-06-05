@@ -4,10 +4,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:trafficnow/module/userPlace.dart';
 import 'package:trafficnow/service/estimateTime.dart';
 
-class Polylines extends ChangeNotifier {
-  Set _polyline = {};
+class PolylineProvider extends ChangeNotifier {
+  Set<Polyline> _polyline = {};
 
-  Set getPolylines() => _polyline;
+  Set<Polyline> getPolylines() => _polyline;
 
   void addRoute(UserPlace result, LatLng position) async {
     var routes =
@@ -23,6 +23,11 @@ class Polylines extends ChangeNotifier {
           color: Colors.blue,
         ));
     }
+    notifyListeners();
+  }
+
+  PolylineProvider({UserPlace result, LatLng position}) {
+    addRoute(result, position);
     notifyListeners();
   }
 }
