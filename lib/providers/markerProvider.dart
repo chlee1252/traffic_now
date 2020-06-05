@@ -3,10 +3,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:trafficnow/module/userPlace.dart';
 import 'package:trafficnow/service/convertLatLong.dart';
 
-class Markers extends ChangeNotifier {
-  Set _markers = {};
+class MarkerProvider extends ChangeNotifier {
+  Set<Marker> _markers = {};
 
-  Set getMarkers() => _markers;
+  Set<Marker> getMarkers() => _markers;
 
   Future<LatLng> _getLatLng(UserPlace userPlace) async {
     ConvertLatLong data = ConvertLatLong(data: userPlace);
@@ -29,6 +29,16 @@ class Markers extends ChangeNotifier {
           position: data,
           icon: BitmapDescriptor.defaultMarker));
     }
+    notifyListeners();
+  }
+
+  MarkerProvider({double lat, double long}) {
+    final curPosition = LatLng(lat, long);
+    _markers.add(Marker(
+        markerId: MarkerId("origin"),
+        position: curPosition,
+        icon:
+            BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure)));
     notifyListeners();
   }
 }
