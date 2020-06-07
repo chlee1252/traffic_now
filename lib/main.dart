@@ -19,12 +19,8 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (context) => UserPlaceProvider(),
-        )
-      ],
+    return ChangeNotifierProvider(
+      create: (context) => UserPlaceProvider(),
       child: MaterialApp(
         title: 'TrafficNow',
         theme: ThemeData(
