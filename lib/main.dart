@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:trafficnow/providers/userPlaceProvider.dart';
 import 'package:trafficnow/screens/addScheduleScreen.dart';
 import 'package:trafficnow/screens/placeInputScreen.dart';
 import 'package:trafficnow/screens/splashScreen.dart';
@@ -17,19 +19,26 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    return MaterialApp(
-      title: 'TrafficNow',
-      theme: ThemeData(
-        primaryColor: Colors.white,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => UserPlaceProvider(),
+        )
+      ],
+      child: MaterialApp(
+        title: 'TrafficNow',
+        theme: ThemeData(
+          primaryColor: Colors.white,
+        ),
+        home: SplashScreen(),
+        initialRoute: SplashScreen.id,
+        routes: {
+          SplashScreen.id : (context) => SplashScreen(),
+          MainScreen.id: (context) => MainScreen(),
+          AddScheduleScreen.id: (context) => AddScheduleScreen(),
+          PlaceInputScreen.id: (context) => PlaceInputScreen(),
+        },
       ),
-      home: SplashScreen(),
-      initialRoute: SplashScreen.id,
-      routes: {
-        SplashScreen.id : (context) => SplashScreen(),
-        MainScreen.id: (context) => MainScreen(),
-        AddScheduleScreen.id: (context) => AddScheduleScreen(),
-        PlaceInputScreen.id: (context) => PlaceInputScreen(),
-      },
     );
   }
 }
