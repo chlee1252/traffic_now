@@ -21,7 +21,6 @@ class UserPlaceProvider extends ChangeNotifier {
     Storage storage = new Storage();
     final ready = await storage.isReady();
     ready ? _userPlace = storage.getItems() : _userPlace = null;
-
   }
 
 }
