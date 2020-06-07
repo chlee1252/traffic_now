@@ -19,7 +19,7 @@ class MarkerProvider extends ChangeNotifier {
     return result;
   }
 
-  void addMarker(UserPlace result) async {
+  Future<void> addMarker(UserPlace result) async {
     var data = await _getLatLng(result);
     if (data != null) {
       if (_markers.length > 1) _markers.remove(_markers.last);
@@ -29,16 +29,24 @@ class MarkerProvider extends ChangeNotifier {
           position: data,
           icon: BitmapDescriptor.defaultMarker));
     }
+  }
+
+  void addMarkerNotifier({UserPlace userPlace}) async {
+    await addMarker(userPlace);
     notifyListeners();
   }
 
-  MarkerProvider({double lat, double long}) {
-    final curPosition = LatLng(lat, long);
+  MarkerProvider({LatLng curPosition, UserPlace userPlace}) {
     _markers.add(Marker(
         markerId: MarkerId("origin"),
         position: curPosition,
         icon:
             BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure)));
+    if (userPlace != null) {
+      addMarker(userPlace).then((data) {
+        notifyListeners();
+      });
+    }
     notifyListeners();
   }
 }
