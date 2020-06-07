@@ -12,15 +12,16 @@ class UserPlaceProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void localStorage() {
-    Storage storage = new Storage();
-    storage.isReady().then((data) {
-      if (data) {
-        _userPlace = storage.getItems();
-      } else {
-        _userPlace = null;
-      }
-    });
+  void changeSwitch(bool value) {
+    _userPlace.turnON = value;
     notifyListeners();
   }
+
+  Future<void> localStorage() async {
+    Storage storage = new Storage();
+    final ready = await storage.isReady();
+    ready ? _userPlace = storage.getItems() : _userPlace = null;
+
+  }
+
 }
