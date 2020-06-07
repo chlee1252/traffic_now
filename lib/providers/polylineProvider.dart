@@ -9,7 +9,7 @@ class PolylineProvider extends ChangeNotifier {
 
   Set<Polyline> getPolylines() => _polyline;
 
-  void addRoute(UserPlace result, LatLng position) async {
+  Future<void> addRoute(UserPlace result, LatLng position) async {
     var routes =
     await EstimateTime(userData: result, userGeo: position)
         .getSteps();
@@ -23,11 +23,16 @@ class PolylineProvider extends ChangeNotifier {
           color: Colors.blue,
         ));
     }
+  }
+
+  addRouteNotifier({UserPlace userPlace, LatLng position}) async {
+    await addRoute(userPlace, position);
     notifyListeners();
   }
 
-  PolylineProvider({UserPlace result, LatLng position}) {
-    addRoute(result, position);
-    notifyListeners();
+  PolylineProvider({UserPlace userPlace, LatLng position}) {
+    addRoute(userPlace, position).then((data) {
+      notifyListeners();
+    });
   }
 }
