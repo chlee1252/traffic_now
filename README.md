@@ -4,8 +4,12 @@
 
 TrafficNow is helping users to give current traffic status scheduled time on custom routes.
 
-## Demo
-<Insert GIF>
+## Screenshot
+![](https://raw.githubusercontent.com/chlee1252/traffic_now/master/screenshot/1.png)
+![](https://raw.githubusercontent.com/chlee1252/traffic_now/master/screenshot/2.png)
+![](https://raw.githubusercontent.com/chlee1252/traffic_now/master/screenshot/3.png)
+![](https://raw.githubusercontent.com/chlee1252/traffic_now/master/screenshot/4.png)
+
 
 ## Third Party Library
 
